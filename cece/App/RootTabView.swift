@@ -12,8 +12,10 @@ struct RootTabView: View {
             MatchView()
                 .tabItem { Label("Матч", systemImage: "target") }
 
-            ReviewMatchesView(dependencies: dependencies)
-                .tabItem { Label("Стат.", systemImage: "rectangle.split.2x1") }
+            NavigationStack {
+                ReviewMatchesView(dependencies: dependencies)
+            }
+            .tabItem { Label("Стат.", systemImage: "rectangle.split.2x1") }
 
             SettingsView()
                 .tabItem { Label("Настр.", systemImage: "gearshape") }

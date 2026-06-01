@@ -13,7 +13,8 @@ final class ReviewMatchesViewModel: ObservableObject {
 
     func load() {
         do {
-            matches = try repository.fetchAll()
+            // Statistics shows played (completed) matches only.
+            matches = try repository.fetchAll().filter { $0.completedAt != nil }
         } catch {
             errorMessage = error.localizedDescription
         }

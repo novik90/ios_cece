@@ -32,7 +32,7 @@ struct HomeView: View {
                 case .reviewMatches:
                     ReviewMatchesView(dependencies: dependencies)
                 case .reviewPlayers:
-                    ReviewPlayersView(dependencies: dependencies)
+                    PlayersView(dependencies: dependencies)
                 }
             }
         }
