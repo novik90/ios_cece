@@ -27,4 +27,11 @@ enum PreviewData {
     static var dependencies: Dependencies {
         Dependencies(context: container.mainContext)
     }
+
+    /// The seeded in-progress match, for `MatchView` previews.
+    static var previewMatch: Match {
+        let descriptor = FetchDescriptor<Match>()
+        return (try? container.mainContext.fetch(descriptor))?.first
+            ?? Match(player1: Player(name: "P1"), player2: Player(name: "P2"), totalFrames: 7)
+    }
 }

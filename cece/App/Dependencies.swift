@@ -10,8 +10,27 @@ final class Dependencies: ObservableObject {
     let playerRepository: PlayerRepository
     let matchRepository: MatchRepository
 
+    private let context: ModelContext
+    /// Live scoring view models, kept for the app session so re-entering a match
+    /// preserves the in-progress frame state instead of starting over.
+    private var liveMatchViewModels: [UUID: MatchViewModel] = [:]
+
     init(context: ModelContext) {
+        self.context = context
         self.playerRepository = LocalPlayerRepository(context: context)
         self.matchRepository = LocalMatchRepository(context: context)
+    }
+
+    /// Returns the live view model for a match, reusing the cached instance.
+    func liveMatchViewModel(for match: Match) -> MatchViewModel {
+        if let existing = liveMatchViewModels[match.id] { return existing }
+        let viewModel = MatchViewModel(match: match, context: context)
+        liveMatchViewModels[match.id] = viewModel
+        return viewModel
+    }
+
+    /// Drops a cached view model (e.g. when its match is deleted).
+    func releaseMatchViewModel(for matchId: UUID) {
+        liveMatchViewModels[matchId] = nil
     }
 }
