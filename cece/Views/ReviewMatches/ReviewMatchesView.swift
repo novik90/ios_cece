@@ -2,32 +2,51 @@ import SwiftUI
 
 struct ReviewMatchesView: View {
     @StateObject private var viewModel: ReviewMatchesViewModel
+    @State private var pendingDelete: IndexSet?
+    private let dependencies: Dependencies
 
     init(dependencies: Dependencies) {
+        self.dependencies = dependencies
         _viewModel = StateObject(wrappedValue: ReviewMatchesViewModel(repository: dependencies.matchRepository))
     }
 
     var body: some View {
-        NavigationStack {
-            Group {
-                if viewModel.matches.isEmpty {
-                    ContentUnavailableView(
-                        "No matches yet",
-                        systemImage: "rectangle.split.2x1",
-                        description: Text("Start a new match to see it here.")
-                    )
-                } else {
-                    List {
-                        ForEach(viewModel.matches) { match in
+        Group {
+            if viewModel.matches.isEmpty {
+                ContentUnavailableView(
+                    "No matches played yet",
+                    systemImage: "rectangle.split.2x1",
+                    description: Text("Finished matches show up here.")
+                )
+            } else {
+                List {
+                    ForEach(viewModel.matches) { match in
+                        NavigationLink(value: match) {
                             matchRow(match)
                         }
-                        .onDelete(perform: viewModel.delete)
                     }
+                    .onDelete { pendingDelete = $0 }
                 }
             }
-            .navigationTitle("Matches")
-            .onAppear { viewModel.load() }
         }
+        .navigationTitle("Statistics")
+        .navigationDestination(for: Match.self) { match in
+            MatchDetailView(match: match, dependencies: dependencies)
+        }
+        .confirmationDialog(
+            "Delete match?",
+            isPresented: Binding(get: { pendingDelete != nil }, set: { if !$0 { pendingDelete = nil } }),
+            titleVisibility: .visible
+        ) {
+            Button("Delete match", role: .destructive) {
+                if let offsets = pendingDelete { viewModel.delete(at: offsets) }
+                pendingDelete = nil
+            }
+            Button("Cancel", role: .cancel) { pendingDelete = nil }
+        } message: {
+            Text("This permanently deletes the match and all its frames.")
+        }
+        .onAppear { viewModel.load() }
     }
 
     @ViewBuilder
@@ -45,10 +64,8 @@ struct ReviewMatchesView: View {
 
             HStack(spacing: 8) {
                 Text("Best of \(match.totalFrames)")
-                Text("•")
-                Text(match.isCompleted ? "Completed" : "In progress")
                 Spacer()
-                Text(match.createdAt, style: .date)
+                Text((match.completedAt ?? match.createdAt), style: .date)
             }
             .font(.caption)
             .foregroundStyle(.secondary)
@@ -58,5 +75,7 @@ struct ReviewMatchesView: View {
 }
 
 #Preview {
-    ReviewMatchesView(dependencies: PreviewData.dependencies)
+    NavigationStack {
+        ReviewMatchesView(dependencies: PreviewData.dependencies)
+    }
 }
