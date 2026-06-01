@@ -19,6 +19,10 @@ final class Match {
     var createdAt: Date
     var completedAt: Date?
 
+    /// Explicit match winner, if recorded. When nil, the winner is derived from
+    /// frames won (see `PlayerStats.winnerId(of:)`).
+    var winnerId: UUID?
+
     init(
         id: UUID = UUID(),
         player1: Player,
@@ -26,7 +30,8 @@ final class Match {
         totalFrames: Int,
         frames: [Frame] = [],
         createdAt: Date = .now,
-        completedAt: Date? = nil
+        completedAt: Date? = nil,
+        winnerId: UUID? = nil
     ) {
         self.id = id
         self.player1 = player1
@@ -35,6 +40,7 @@ final class Match {
         self.frames = frames
         self.createdAt = createdAt
         self.completedAt = completedAt
+        self.winnerId = winnerId
     }
 }
 
