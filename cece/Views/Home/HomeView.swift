@@ -69,7 +69,7 @@ struct HomeView: View {
 
             NavigationLink(value: Route.newPlayer) {
                 HomePrimaryRow(
-                    iconSystemName: "person",
+                    iconSystemName: "person.badge.plus",
                     iconBackground: Theme.Palette.blue,
                     title: "New player"
                 )
@@ -85,7 +85,7 @@ struct HomeView: View {
             .buttonStyle(.plain)
 
             NavigationLink(value: Route.reviewPlayers) {
-                HomeSecondaryRow(iconSystemName: "person.badge.plus", title: "Review players")
+                HomeSecondaryRow(iconSystemName: "person", title: "Review players")
             }
             .buttonStyle(.plain)
         }
