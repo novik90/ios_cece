@@ -1,0 +1,68 @@
+import Foundation
+import SwiftData
+
+/// SwiftData-backed implementation of `TournamentRepository`.
+@MainActor
+final class LocalTournamentRepository: TournamentRepository {
+    private let context: ModelContext
+
+    init(context: ModelContext) {
+        self.context = context
+    }
+
+    func fetchAll() throws -> [Tournament] {
+        let descriptor = FetchDescriptor<Tournament>(
+            sortBy: [SortDescriptor(\.createdAt, order: .reverse)]
+        )
+        return try context.fetch(descriptor)
+    }
+
+    @discardableResult
+    func create(name: String, size: TournamentSize) throws -> Tournament {
+        let tournament = Tournament(name: name, size: size)
+        context.insert(tournament)
+        try context.save()
+        return tournament
+    }
+
+    @discardableResult
+    func create(name: String, size: TournamentSize, players: [Player]) throws -> Tournament {
+        precondition(players.count == size.rawValue, "need \(size.rawValue) players")
+        let tournament = Tournament(name: name, size: size)
+        context.insert(tournament)
+
+        let matches = BracketGenerator.makePlan(size: size).makeMatches(players: players)
+        for match in matches {
+            match.tournament = tournament
+            context.insert(match)
+        }
+
+        try context.save()
+        return tournament
+    }
+
+    func save() throws {
+        try context.save()
+    }
+
+    func delete(_ tournament: Tournament) throws {
+        // Deleting the tournament cascade-deletes its TournamentMatch nodes, but
+        // the linked Match objects are referenced one-way, so remove them too
+        // (each Match in turn cascade-deletes its frames/breaks).
+        for node in tournament.matches {
+            if let match = node.match { context.delete(match) }
+        }
+        context.delete(tournament)
+        try context.save()
+    }
+
+    func advanceOnCompletion(of match: Match) throws {
+        // Tournament data is small; an in-memory scan over the bracket nodes is
+        // simpler and more robust than predicating on an optional relationship.
+        let nodes = try context.fetch(FetchDescriptor<TournamentMatch>())
+        guard let node = nodes.first(where: { $0.match?.id == match.id }),
+              let tournament = node.tournament else { return }
+        TournamentAdvancer.recordResult(for: node, in: tournament)
+        try context.save()
+    }
+}

@@ -13,6 +13,11 @@ struct RootTabView: View {
                 .tabItem { Label("Матч", systemImage: "target") }
 
             NavigationStack {
+                TournamentsListView(dependencies: dependencies)
+            }
+            .tabItem { Label("Турниры", systemImage: "trophy") }
+
+            NavigationStack {
                 ReviewMatchesView(dependencies: dependencies)
             }
             .tabItem { Label("Стат.", systemImage: "rectangle.split.2x1") }

@@ -9,6 +9,7 @@ import SwiftData
 final class Dependencies: ObservableObject {
     let playerRepository: PlayerRepository
     let matchRepository: MatchRepository
+    let tournamentRepository: TournamentRepository
 
     private let context: ModelContext
     /// Live scoring view models, kept for the app session so re-entering a match
@@ -19,12 +20,18 @@ final class Dependencies: ObservableObject {
         self.context = context
         self.playerRepository = LocalPlayerRepository(context: context)
         self.matchRepository = LocalMatchRepository(context: context)
+        self.tournamentRepository = LocalTournamentRepository(context: context)
     }
 
     /// Returns the live view model for a match, reusing the cached instance.
     func liveMatchViewModel(for match: Match) -> MatchViewModel {
         if let existing = liveMatchViewModels[match.id] { return existing }
         let viewModel = MatchViewModel(match: match, context: context)
+        // Completing any match advances the tournament it belongs to (if any),
+        // so the bracket updates without a manual refresh.
+        viewModel.onMatchCompleted = { [weak self] completed in
+            try? self?.tournamentRepository.advanceOnCompletion(of: completed)
+        }
         liveMatchViewModels[match.id] = viewModel
         return viewModel
     }
