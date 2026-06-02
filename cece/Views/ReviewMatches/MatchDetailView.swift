@@ -8,7 +8,8 @@ struct MatchDetailView: View {
     init(match: Match, dependencies: Dependencies) {
         _viewModel = StateObject(wrappedValue: MatchDetailViewModel(
             match: match,
-            repository: dependencies.matchRepository
+            repository: dependencies.matchRepository,
+            tournamentRepository: dependencies.tournamentRepository
         ))
     }
 
