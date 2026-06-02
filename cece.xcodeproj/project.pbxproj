@@ -49,7 +49,7 @@
 			children = (
 				1A0000000000000000000003 /* cece */,
 				1A0000000000000000000002 /* Products */,
-				86DE33102FCEE17100F433DF /* Recovered References */,
+				86DE337D2FCEEEA000F433DF /* Recovered References */,
 			);
 			sourceTree = "<group>";
 		};
@@ -62,7 +62,7 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		86DE33102FCEE17100F433DF /* Recovered References */ = {
+		86DE337D2FCEEEA000F433DF /* Recovered References */ = {
 			isa = PBXGroup;
 			children = (
 				1B0000000000000000000003 /* ceceTests */,

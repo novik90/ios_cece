@@ -48,6 +48,10 @@ final class MatchViewModel {
     // MARK: Persistence / history (not observed for UI)
 
     @ObservationIgnored private let context: ModelContext
+    /// Invoked once when the match transitions to completed, after persistence.
+    /// A tournament wires this to advance its bracket (T4); non-tournament
+    /// matches simply leave it nil.
+    @ObservationIgnored var onMatchCompleted: ((Match) -> Void)?
     @ObservationIgnored private var actionHistory: [MatchAction] = []
     /// State snapshots powering a robust single-step undo. NOT ignored: `canUndo`
     /// is read by the UI.
@@ -304,6 +308,7 @@ final class MatchViewModel {
         matchCompleted = true
         actionHistory.append(.edit)
         try? context.save()
+        onMatchCompleted?(match)
     }
 
     // MARK: Respotted black
@@ -361,7 +366,8 @@ final class MatchViewModel {
 
         let decided = framesWon(by: winnerId) >= match.framesToWin
         let framesExhausted = match.frames.count >= match.totalFrames
-        if decided || framesExhausted {
+        let completedNow = decided || framesExhausted
+        if completedNow {
             match.winnerId = winnerId
             match.completedAt = .now
             matchCompleted = true
@@ -369,6 +375,7 @@ final class MatchViewModel {
             startNextFrame(previousWinner: winnerId)
         }
         try? context.save()
+        if completedNow { onMatchCompleted?(match) }
     }
 
     private func startNextFrame(previousWinner: UUID) {

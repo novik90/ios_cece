@@ -33,4 +33,14 @@ final class LocalTournamentRepository: TournamentRepository {
         context.delete(tournament)
         try context.save()
     }
+
+    func advanceOnCompletion(of match: Match) throws {
+        // Tournament data is small; an in-memory scan over the bracket nodes is
+        // simpler and more robust than predicating on an optional relationship.
+        let nodes = try context.fetch(FetchDescriptor<TournamentMatch>())
+        guard let node = nodes.first(where: { $0.match?.id == match.id }),
+              let tournament = node.tournament else { return }
+        TournamentAdvancer.recordResult(for: node, in: tournament)
+        try context.save()
+    }
 }
