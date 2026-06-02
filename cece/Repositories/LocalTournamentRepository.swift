@@ -25,6 +25,22 @@ final class LocalTournamentRepository: TournamentRepository {
         return tournament
     }
 
+    @discardableResult
+    func create(name: String, size: TournamentSize, players: [Player]) throws -> Tournament {
+        precondition(players.count == size.rawValue, "need \(size.rawValue) players")
+        let tournament = Tournament(name: name, size: size)
+        context.insert(tournament)
+
+        let matches = BracketGenerator.makePlan(size: size).makeMatches(players: players)
+        for match in matches {
+            match.tournament = tournament
+            context.insert(match)
+        }
+
+        try context.save()
+        return tournament
+    }
+
     func save() throws {
         try context.save()
     }
