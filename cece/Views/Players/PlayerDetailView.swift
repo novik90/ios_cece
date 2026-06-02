@@ -21,6 +21,15 @@ struct PlayerDetailView: View {
                 LabeledContent("Win rate", value: String(format: "%.0f%%", stats.winPercentage))
             }
 
+            if !stats.tournamentsPlayed.isEmpty {
+                Section("Tournaments") {
+                    LabeledContent("Tournaments won", value: "\(stats.tournamentsWon)")
+                    ForEach(stats.tournamentsPlayed) { tournament in
+                        tournamentRow(tournament)
+                    }
+                }
+            }
+
             Section("Top 10 breaks") {
                 if stats.topBreaks.isEmpty {
                     Text("No breaks recorded yet.")
@@ -34,6 +43,21 @@ struct PlayerDetailView: View {
         }
         .navigationTitle(player.name)
         .navigationBarTitleDisplayMode(.inline)
+    }
+
+    // MARK: - Tournament row
+
+    private func tournamentRow(_ tournament: PlayerTournamentStat) -> some View {
+        HStack(spacing: 12) {
+            Image(systemName: tournament.didWin ? "trophy.fill" : "trophy")
+                .foregroundStyle(tournament.didWin ? Theme.Palette.teal : Theme.Palette.textSecondary)
+                .frame(width: 24)
+            Text(tournament.name)
+            Spacer()
+            Text(tournament.didWin ? "Champion" : (tournament.isCompleted ? "Played" : "In progress"))
+                .font(.caption)
+                .foregroundStyle(.secondary)
+        }
     }
 
     // MARK: - Break row

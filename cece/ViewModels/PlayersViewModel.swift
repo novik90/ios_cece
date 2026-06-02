@@ -9,6 +9,14 @@ struct BreakStat: Identifiable {
     let matchDate: Date
 }
 
+/// A tournament a player took part in, for the player detail screen.
+struct PlayerTournamentStat: Identifiable {
+    let id: UUID
+    let name: String
+    let isCompleted: Bool
+    let didWin: Bool
+}
+
 /// Aggregated career statistics for a single player, derived from matches.
 struct PlayerStats {
     let played: Int
@@ -17,8 +25,12 @@ struct PlayerStats {
     let winPercentage: Double
     /// Up to the 10 highest breaks across all of the player's matches.
     let topBreaks: [BreakStat]
+    /// Tournaments the player entered (most recent first).
+    let tournamentsPlayed: [PlayerTournamentStat]
+    /// How many of those the player won.
+    let tournamentsWon: Int
 
-    init(player: Player, matches: [Match]) {
+    init(player: Player, matches: [Match], tournaments: [Tournament] = []) {
         let participated = matches.filter {
             $0.player1?.id == player.id || $0.player2?.id == player.id
         }
@@ -49,6 +61,25 @@ struct PlayerStats {
             }
         }
         self.topBreaks = Array(collected.sorted { $0.points > $1.points }.prefix(10))
+
+        // A participant is anyone seeded into a winners round-0 slot.
+        func isParticipant(_ tournament: Tournament) -> Bool {
+            tournament.matches.contains { node in
+                node.bracket == .winners && node.round == 0 &&
+                (node.slot1PlayerId == player.id || node.slot2PlayerId == player.id)
+            }
+        }
+        let entered: [Tournament] = tournaments.filter(isParticipant)
+        let sortedEntered: [Tournament] = entered.sorted { $0.createdAt > $1.createdAt }
+        self.tournamentsPlayed = sortedEntered.map { tournament in
+            PlayerTournamentStat(
+                id: tournament.id,
+                name: tournament.name,
+                isCompleted: tournament.isCompleted,
+                didWin: tournament.championId == player.id
+            )
+        }
+        self.tournamentsWon = entered.filter { $0.championId == player.id }.count
     }
 
     /// Resolves a match's winner: explicit `winnerId` if set, else by frames won.
@@ -70,24 +101,32 @@ final class PlayersViewModel: ObservableObject {
 
     private let playerRepository: PlayerRepository
     private let matchRepository: MatchRepository
+    private let tournamentRepository: TournamentRepository
     private var matches: [Match] = []
+    private var tournaments: [Tournament] = []
 
-    init(playerRepository: PlayerRepository, matchRepository: MatchRepository) {
+    init(
+        playerRepository: PlayerRepository,
+        matchRepository: MatchRepository,
+        tournamentRepository: TournamentRepository
+    ) {
         self.playerRepository = playerRepository
         self.matchRepository = matchRepository
+        self.tournamentRepository = tournamentRepository
     }
 
     func load() {
         do {
             players = try playerRepository.fetchAll()
             matches = try matchRepository.fetchAll()
+            tournaments = try tournamentRepository.fetchAll()
         } catch {
             errorMessage = error.localizedDescription
         }
     }
 
     func stats(for player: Player) -> PlayerStats {
-        PlayerStats(player: player, matches: matches)
+        PlayerStats(player: player, matches: matches, tournaments: tournaments)
     }
 
     func delete(at offsets: IndexSet) {

@@ -4,17 +4,22 @@ import Foundation
 final class MatchDetailViewModel: ObservableObject {
     let match: Match
     private let repository: MatchRepository
+    private let tournamentRepository: TournamentRepository
 
     /// All matches, used for head-to-head counts and player career stats.
     @Published private(set) var allMatches: [Match] = []
+    /// All tournaments, used for a player's tournament stats.
+    @Published private(set) var allTournaments: [Tournament] = []
 
-    init(match: Match, repository: MatchRepository) {
+    init(match: Match, repository: MatchRepository, tournamentRepository: TournamentRepository) {
         self.match = match
         self.repository = repository
+        self.tournamentRepository = tournamentRepository
     }
 
     func load() {
         allMatches = (try? repository.fetchAll()) ?? []
+        allTournaments = (try? tournamentRepository.fetchAll()) ?? []
     }
 
     // MARK: Result
@@ -94,6 +99,6 @@ final class MatchDetailViewModel: ObservableObject {
     // MARK: Player stats (for drilling into a player)
 
     func stats(for player: Player) -> PlayerStats {
-        PlayerStats(player: player, matches: allMatches)
+        PlayerStats(player: player, matches: allMatches, tournaments: allTournaments)
     }
 }
