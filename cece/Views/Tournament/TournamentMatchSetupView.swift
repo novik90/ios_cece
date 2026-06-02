@@ -1,29 +1,29 @@
 import SwiftUI
 
-/// Match-launch screen reached by tapping a ready bracket slot. Picks the
-/// best-of format, creates the match (linking it to the bracket node), and opens
-/// the live scoring screen. Resumes an already-started match instead.
+/// Best-of chooser shown as a sheet from the bracket. Creates the match (linked
+/// to the node) and hands it back via `onStarted`; the bracket then pushes the
+/// scoring screen, so finishing the match returns straight to the bracket.
 struct TournamentMatchSetupView: View {
     @StateObject private var viewModel: TournamentMatchSetupViewModel
-    @State private var activeMatch: Match?
-    private let dependencies: Dependencies
+    @Environment(\.dismiss) private var dismiss
+    private let onStarted: (Match) -> Void
 
-    init(node: TournamentMatch, dependencies: Dependencies) {
-        self.dependencies = dependencies
+    init(node: TournamentMatch, dependencies: Dependencies, onStarted: @escaping (Match) -> Void) {
+        self.onStarted = onStarted
         _viewModel = StateObject(wrappedValue: TournamentMatchSetupViewModel(
             node: node, dependencies: dependencies
         ))
     }
 
     var body: some View {
-        Form {
-            Section("Участники") {
-                Text(viewModel.player1?.name ?? "—")
-                Text(viewModel.player2?.name ?? "—")
-            }
-            .foregroundStyle(Theme.Palette.textPrimary)
+        NavigationStack {
+            Form {
+                Section("Участники") {
+                    Text(viewModel.player1?.name ?? "—")
+                    Text(viewModel.player2?.name ?? "—")
+                }
+                .foregroundStyle(Theme.Palette.textPrimary)
 
-            if viewModel.existingMatch == nil {
                 Section("Формат") {
                     Picker("Best of", selection: $viewModel.totalFrames) {
                         ForEach(viewModel.frameOptions, id: \.self) { n in
@@ -31,25 +31,25 @@ struct TournamentMatchSetupView: View {
                         }
                     }
                 }
-            }
 
-            if let error = viewModel.errorMessage {
-                Section { Text(error).foregroundStyle(.red) }
-            }
-        }
-        .navigationTitle("Матч")
-        .navigationBarTitleDisplayMode(.inline)
-        .toolbar {
-            ToolbarItem(placement: .confirmationAction) {
-                Button(viewModel.existingMatch == nil ? "Начать" : "Продолжить") {
-                    activeMatch = viewModel.startMatch()
+                if let error = viewModel.errorMessage {
+                    Section { Text(error).foregroundStyle(.red) }
                 }
-                .disabled(viewModel.existingMatch == nil && !viewModel.canStart)
             }
+            .navigationTitle("Новый матч")
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .cancellationAction) {
+                    Button("Отмена") { dismiss() }
+                }
+                ToolbarItem(placement: .confirmationAction) {
+                    Button("Начать") {
+                        if let match = viewModel.startMatch() { onStarted(match) }
+                    }
+                    .disabled(!viewModel.canStart)
+                }
+            }
+            .onAppear { viewModel.loadPlayers() }
         }
-        .navigationDestination(item: $activeMatch) { match in
-            MatchPlayView(viewModel: dependencies.liveMatchViewModel(for: match))
-        }
-        .onAppear { viewModel.loadPlayers() }
     }
 }

@@ -8,7 +8,18 @@ struct TournamentBracketView: View {
     let dependencies: Dependencies
 
     @State private var namesById: [UUID: String] = [:]
-    @State private var selectedNodeID: UUID?
+    /// Drives the best-of sheet for a not-yet-started match.
+    @State private var launchTarget: LaunchTarget?
+    /// Match handed back by the sheet, pushed once the sheet has dismissed.
+    @State private var pendingPush: Match?
+    /// Match currently pushed onto the scoring screen.
+    @State private var activeMatch: Match?
+
+    /// Identifiable wrapper so a node can drive `.sheet(item:)`.
+    private struct LaunchTarget: Identifiable {
+        let id: UUID
+        let node: TournamentMatch
+    }
 
     var body: some View {
         ScrollView([.horizontal, .vertical]) {
@@ -25,12 +36,32 @@ struct TournamentBracketView: View {
         .background(Theme.Palette.background)
         .navigationTitle(tournament.name)
         .navigationBarTitleDisplayMode(.inline)
-        .navigationDestination(item: $selectedNodeID) { id in
-            if let node = tournament.matches.first(where: { $0.id == id }) {
-                TournamentMatchSetupView(node: node, dependencies: dependencies)
+        .sheet(item: $launchTarget, onDismiss: {
+            if let match = pendingPush {
+                pendingPush = nil
+                activeMatch = match
+            }
+        }) { target in
+            TournamentMatchSetupView(node: target.node, dependencies: dependencies) { match in
+                pendingPush = match
+                launchTarget = nil
             }
         }
+        .navigationDestination(item: $activeMatch) { match in
+            MatchPlayView(viewModel: dependencies.liveMatchViewModel(for: match))
+        }
         .onAppear(perform: loadNames)
+    }
+
+    /// Tapping a ready slot opens the best-of sheet; tapping an in-progress one
+    /// resumes its match directly. Both routes push the scoring screen from the
+    /// bracket, so "Back to matches" returns here.
+    private func handleTap(_ node: TournamentMatch) {
+        if let match = node.match {
+            if match.completedAt == nil { activeMatch = match }
+        } else if node.isReady {
+            launchTarget = LaunchTarget(id: node.id, node: node)
+        }
     }
 
     // MARK: Sections
@@ -63,7 +94,7 @@ struct TournamentBracketView: View {
 
             ForEach(nodes(in: bracket, round: round), id: \.id) { node in
                 BracketMatchCard(node: node, namesById: namesById) {
-                    selectedNodeID = node.id
+                    handleTap(node)
                 }
             }
         }
