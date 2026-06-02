@@ -34,6 +34,9 @@ struct MatchDetailView: View {
             }
 
             Section("Details") {
+                if viewModel.match.isTournamentMatch {
+                    LabeledContent("Tournament", value: viewModel.match.tournament?.name ?? "—")
+                }
                 LabeledContent("Date", value: viewModel.date.formatted(date: .abbreviated, time: .shortened))
                 if let duration = viewModel.duration {
                     LabeledContent("Duration", value: formatDuration(duration))
