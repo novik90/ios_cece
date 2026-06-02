@@ -9,6 +9,7 @@ import SwiftData
 final class Dependencies: ObservableObject {
     let playerRepository: PlayerRepository
     let matchRepository: MatchRepository
+    let tournamentRepository: TournamentRepository
 
     private let context: ModelContext
     /// Live scoring view models, kept for the app session so re-entering a match
@@ -19,6 +20,7 @@ final class Dependencies: ObservableObject {
         self.context = context
         self.playerRepository = LocalPlayerRepository(context: context)
         self.matchRepository = LocalMatchRepository(context: context)
+        self.tournamentRepository = LocalTournamentRepository(context: context)
     }
 
     /// Returns the live view model for a match, reusing the cached instance.

@@ -11,7 +11,8 @@ struct ceceApp: App {
     init() {
         do {
             let container = try ModelContainer(
-                for: Player.self, Match.self, Frame.self, Break.self
+                for: Player.self, Match.self, Frame.self, Break.self,
+                Tournament.self, TournamentMatch.self
             )
             self.modelContainer = container
             _dependencies = StateObject(wrappedValue: Dependencies(context: container.mainContext))
