@@ -11,6 +11,11 @@ final class ReviewMatchesViewModel: ObservableObject {
         self.repository = repository
     }
 
+    /// Completed matches played inside a tournament.
+    var tournamentMatches: [Match] { matches.filter(\.isTournamentMatch) }
+    /// Completed matches played outside any tournament.
+    var otherMatches: [Match] { matches.filter { !$0.isTournamentMatch } }
+
     func load() {
         do {
             // Statistics shows played (completed) matches only.
@@ -20,10 +25,9 @@ final class ReviewMatchesViewModel: ObservableObject {
         }
     }
 
-    func delete(at offsets: IndexSet) {
-        let toDelete = offsets.map { matches[$0] }
+    func delete(_ matchesToDelete: [Match]) {
         do {
-            for match in toDelete {
+            for match in matchesToDelete {
                 try repository.delete(match)
             }
             load()

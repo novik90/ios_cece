@@ -2,7 +2,7 @@ import SwiftUI
 
 struct ReviewMatchesView: View {
     @StateObject private var viewModel: ReviewMatchesViewModel
-    @State private var pendingDelete: IndexSet?
+    @State private var pendingDelete: [Match]?
     private let dependencies: Dependencies
 
     init(dependencies: Dependencies) {
@@ -20,12 +20,26 @@ struct ReviewMatchesView: View {
                 )
             } else {
                 List {
-                    ForEach(viewModel.matches) { match in
-                        NavigationLink(value: match) {
-                            matchRow(match)
+                    if !viewModel.tournamentMatches.isEmpty {
+                        Section("Tournament matches") {
+                            ForEach(viewModel.tournamentMatches) { match in
+                                NavigationLink(value: match) { matchRow(match) }
+                            }
+                            .onDelete { offsets in
+                                pendingDelete = offsets.map { viewModel.tournamentMatches[$0] }
+                            }
                         }
                     }
-                    .onDelete { pendingDelete = $0 }
+                    if !viewModel.otherMatches.isEmpty {
+                        Section("Other matches") {
+                            ForEach(viewModel.otherMatches) { match in
+                                NavigationLink(value: match) { matchRow(match) }
+                            }
+                            .onDelete { offsets in
+                                pendingDelete = offsets.map { viewModel.otherMatches[$0] }
+                            }
+                        }
+                    }
                 }
             }
         }
@@ -39,7 +53,7 @@ struct ReviewMatchesView: View {
             titleVisibility: .visible
         ) {
             Button("Delete match", role: .destructive) {
-                if let offsets = pendingDelete { viewModel.delete(at: offsets) }
+                if let toDelete = pendingDelete { viewModel.delete(toDelete) }
                 pendingDelete = nil
             }
             Button("Cancel", role: .cancel) { pendingDelete = nil }
@@ -52,6 +66,11 @@ struct ReviewMatchesView: View {
     @ViewBuilder
     private func matchRow(_ match: Match) -> some View {
         VStack(alignment: .leading, spacing: 4) {
+            if match.isTournamentMatch {
+                Label(match.tournament?.name ?? "Tournament", systemImage: "trophy.fill")
+                    .font(.caption2.weight(.semibold))
+                    .foregroundStyle(Theme.Palette.teal)
+            }
             HStack {
                 Text(match.player1?.name ?? "—")
                 Spacer()

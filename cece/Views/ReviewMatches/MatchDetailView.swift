@@ -8,7 +8,8 @@ struct MatchDetailView: View {
     init(match: Match, dependencies: Dependencies) {
         _viewModel = StateObject(wrappedValue: MatchDetailViewModel(
             match: match,
-            repository: dependencies.matchRepository
+            repository: dependencies.matchRepository,
+            tournamentRepository: dependencies.tournamentRepository
         ))
     }
 
@@ -34,6 +35,9 @@ struct MatchDetailView: View {
             }
 
             Section("Details") {
+                if viewModel.match.isTournamentMatch {
+                    LabeledContent("Tournament", value: viewModel.match.tournament?.name ?? "—")
+                }
                 LabeledContent("Date", value: viewModel.date.formatted(date: .abbreviated, time: .shortened))
                 if let duration = viewModel.duration {
                     LabeledContent("Duration", value: formatDuration(duration))

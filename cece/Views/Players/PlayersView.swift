@@ -10,7 +10,8 @@ struct PlayersView: View {
     init(dependencies: Dependencies) {
         _viewModel = StateObject(wrappedValue: PlayersViewModel(
             playerRepository: dependencies.playerRepository,
-            matchRepository: dependencies.matchRepository
+            matchRepository: dependencies.matchRepository,
+            tournamentRepository: dependencies.tournamentRepository
         ))
     }
 

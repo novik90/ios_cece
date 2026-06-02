@@ -23,6 +23,12 @@ final class Match {
     /// frames won (see `PlayerStats.winnerId(of:)`).
     var winnerId: UUID?
 
+    /// Back-reference to the bracket node this match belongs to, if it was played
+    /// inside a tournament. Nil for ordinary matches. Set automatically when a
+    /// `TournamentMatch.match` is assigned (this is its inverse).
+    @Relationship(inverse: \TournamentMatch.match)
+    var tournamentMatch: TournamentMatch? = nil
+
     init(
         id: UUID = UUID(),
         player1: Player,
@@ -45,6 +51,12 @@ final class Match {
 }
 
 extension Match {
+    /// Whether this match was played as part of a tournament.
+    var isTournamentMatch: Bool { tournamentMatch != nil }
+
+    /// The tournament this match belongs to, if any.
+    var tournament: Tournament? { tournamentMatch?.tournament }
+
     /// Number of frames each player needs to win the match (best of N).
     var framesToWin: Int { totalFrames / 2 + 1 }
 
