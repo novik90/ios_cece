@@ -62,9 +62,10 @@ struct NewMatchView: View {
             MatchPlayView(viewModel: dependencies.liveMatchViewModel(for: match))
         }
         .sheet(item: $pickingSlot) { slot in
+            let other = slot == .one ? viewModel.player2 : viewModel.player1
             PlayerPickerSheet(
                 players: viewModel.players,
-                excluded: slot == .one ? viewModel.player2 : viewModel.player1
+                excludedIds: Set([other?.id].compactMap { $0 })
             ) { picked in
                 switch slot {
                 case .one: viewModel.player1 = picked
@@ -88,56 +89,6 @@ struct NewMatchView: View {
                 Image(systemName: "chevron.right")
                     .font(.caption.weight(.semibold))
                     .foregroundStyle(.tertiary)
-            }
-        }
-    }
-}
-
-/// Searchable player chooser presented as a sheet.
-private struct PlayerPickerSheet: View {
-    let players: [Player]
-    let excluded: Player?
-    let onSelect: (Player) -> Void
-
-    @Environment(\.dismiss) private var dismiss
-    @State private var search = ""
-
-    private var filtered: [Player] {
-        let available = players.filter { $0.id != excluded?.id }
-        guard !search.isEmpty else { return available }
-        return available.filter { $0.name.localizedCaseInsensitiveContains(search) }
-    }
-
-    var body: some View {
-        NavigationStack {
-            List(filtered) { player in
-                Button {
-                    onSelect(player)
-                    dismiss()
-                } label: {
-                    HStack {
-                        Text(player.name).foregroundStyle(Theme.Palette.textPrimary)
-                        Spacer()
-                    }
-                    .contentShape(Rectangle())
-                }
-            }
-            .overlay {
-                if filtered.isEmpty {
-                    ContentUnavailableView(
-                        "No players found",
-                        systemImage: "magnifyingglass",
-                        description: Text("Try a different name.")
-                    )
-                }
-            }
-            .searchable(text: $search, prompt: "Search by name")
-            .navigationTitle("Select player")
-            .navigationBarTitleDisplayMode(.inline)
-            .toolbar {
-                ToolbarItem(placement: .cancellationAction) {
-                    Button("Cancel") { dismiss() }
-                }
             }
         }
     }
