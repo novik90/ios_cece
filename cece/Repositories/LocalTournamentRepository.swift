@@ -46,6 +46,12 @@ final class LocalTournamentRepository: TournamentRepository {
     }
 
     func delete(_ tournament: Tournament) throws {
+        // Deleting the tournament cascade-deletes its TournamentMatch nodes, but
+        // the linked Match objects are referenced one-way, so remove them too
+        // (each Match in turn cascade-deletes its frames/breaks).
+        for node in tournament.matches {
+            if let match = node.match { context.delete(match) }
+        }
         context.delete(tournament)
         try context.save()
     }
