@@ -1,0 +1,1456 @@
+{
+  "sourceLanguage": "en",
+  "strings": {
+    "Home": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Главная"
+          }
+        }
+      }
+    },
+    "Match": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Матч"
+          }
+        }
+      }
+    },
+    "Tournaments": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Турниры"
+          }
+        }
+      }
+    },
+    "Stats": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Статистика"
+          }
+        }
+      }
+    },
+    "Settings": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Настройки"
+          }
+        }
+      }
+    },
+    "one ball at a time.": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "по одному шару за раз."
+          }
+        }
+      }
+    },
+    "New match": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Новый матч"
+          }
+        }
+      }
+    },
+    "New player": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Новый игрок"
+          }
+        }
+      }
+    },
+    "Review matches": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Просмотр матчей"
+          }
+        }
+      }
+    },
+    "Review players": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Игроки"
+          }
+        }
+      }
+    },
+    "ce·ce logo": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "логотип ce·ce"
+          }
+        }
+      }
+    },
+    "About": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "О приложении"
+          }
+        }
+      }
+    },
+    "App": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Приложение"
+          }
+        }
+      }
+    },
+    "Version": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Версия"
+          }
+        }
+      }
+    },
+    "Developer": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Разработчик"
+          }
+        }
+      }
+    },
+    "Reset all data": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Сбросить все данные"
+          }
+        }
+      }
+    },
+    "Reset all data?": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Сбросить все данные?"
+          }
+        }
+      }
+    },
+    "Delete everything": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Удалить всё"
+          }
+        }
+      }
+    },
+    "This will permanently delete all players and matches. This action cannot be undone.": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Все игроки и матчи будут удалены безвозвратно. Это действие нельзя отменить."
+          }
+        }
+      }
+    },
+    "Cancel": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Отмена"
+          }
+        }
+      }
+    },
+    "Done": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Готово"
+          }
+        }
+      }
+    },
+    "Save": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Сохранить"
+          }
+        }
+      }
+    },
+    "Create": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Создать"
+          }
+        }
+      }
+    },
+    "Delete": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Удалить"
+          }
+        }
+      }
+    },
+    "Player": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Игрок"
+          }
+        }
+      }
+    },
+    "Name": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Имя"
+          }
+        }
+      }
+    },
+    "Players": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Игроки"
+          }
+        }
+      }
+    },
+    "Format": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Формат"
+          }
+        }
+      }
+    },
+    "Best of": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Лучший из"
+          }
+        }
+      }
+    },
+    "Best of %lld": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Лучший из %lld"
+          }
+        }
+      }
+    },
+    "You need at least two players. Add players from the home screen first.": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Нужно минимум два игрока. Сначала добавьте игроков на главном экране."
+          }
+        }
+      }
+    },
+    "Select": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Выбрать"
+          }
+        }
+      }
+    },
+    "Player 1": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Игрок 1"
+          }
+        }
+      }
+    },
+    "Player 2": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Игрок 2"
+          }
+        }
+      }
+    },
+    "No players yet": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Пока нет игроков"
+          }
+        }
+      }
+    },
+    "Add players from the home screen to get started.": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Добавьте игроков на главном экране, чтобы начать."
+          }
+        }
+      }
+    },
+    "Delete player?": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Удалить игрока?"
+          }
+        }
+      }
+    },
+    "Delete player": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Удалить игрока"
+          }
+        }
+      }
+    },
+    "This permanently deletes the player. Their past matches stay but will show no name.": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Игрок будет удалён безвозвратно. Прошлые матчи останутся, но без имени."
+          }
+        }
+      }
+    },
+    "%lld played · %lld wins · %lld losses": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Сыграно: %1$lld · побед: %2$lld · поражений: %3$lld"
+          }
+        }
+      }
+    },
+    "Statistics": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Статистика"
+          }
+        }
+      }
+    },
+    "No matches played yet": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Сыгранных матчей пока нет"
+          }
+        }
+      }
+    },
+    "Finished matches show up here.": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Завершённые матчи появятся здесь."
+          }
+        }
+      }
+    },
+    "Tournament matches": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Турнирные матчи"
+          }
+        }
+      }
+    },
+    "Other matches": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Прочие матчи"
+          }
+        }
+      }
+    },
+    "Delete match?": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Удалить матч?"
+          }
+        }
+      }
+    },
+    "Delete match": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Удалить матч"
+          }
+        }
+      }
+    },
+    "This permanently deletes the match and all its frames.": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Матч и все его фреймы будут удалены безвозвратно."
+          }
+        }
+      }
+    },
+    "Tournament": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Турнир"
+          }
+        }
+      }
+    },
+    "Result": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Результат"
+          }
+        }
+      }
+    },
+    "Winner": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Победитель"
+          }
+        }
+      }
+    },
+    "Runner-up": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Проигравший"
+          }
+        }
+      }
+    },
+    "Frames": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Фреймы"
+          }
+        }
+      }
+    },
+    "Details": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Детали"
+          }
+        }
+      }
+    },
+    "Date": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Дата"
+          }
+        }
+      }
+    },
+    "Duration": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Длительность"
+          }
+        }
+      }
+    },
+    "Head-to-head": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Личные встречи"
+          }
+        }
+      }
+    },
+    "%lld matches": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Матчей: %lld"
+          }
+        }
+      }
+    },
+    "Top breaks": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Лучшие брейки"
+          }
+        }
+      }
+    },
+    "No breaks over one ball.": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Нет брейков больше одного шара."
+          }
+        }
+      }
+    },
+    "by %@": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "автор: %@"
+          }
+        }
+      }
+    },
+    "vs %@ · %@": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "против %1$@ · %2$@"
+          }
+        }
+      }
+    },
+    "Record": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Сводка"
+          }
+        }
+      }
+    },
+    "Matches played": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Сыграно матчей"
+          }
+        }
+      }
+    },
+    "Wins": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Победы"
+          }
+        }
+      }
+    },
+    "Losses": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Поражения"
+          }
+        }
+      }
+    },
+    "Win rate": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Процент побед"
+          }
+        }
+      }
+    },
+    "Tournaments won": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Побед в турнирах"
+          }
+        }
+      }
+    },
+    "Champion": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Чемпион"
+          }
+        }
+      }
+    },
+    "Played": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Участие"
+          }
+        }
+      }
+    },
+    "In progress": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "В процессе"
+          }
+        }
+      }
+    },
+    "Top 10 breaks": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Топ-10 брейков"
+          }
+        }
+      }
+    },
+    "No breaks recorded yet.": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Брейков пока нет."
+          }
+        }
+      }
+    },
+    "%lldW – %lldL · %@ win rate": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$lld поб. – %2$lld пор. · %3$@ побед"
+          }
+        }
+      }
+    },
+    "Matches": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Матчи"
+          }
+        }
+      }
+    },
+    "No active match": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Нет активных матчей"
+          }
+        }
+      }
+    },
+    "Create a match from the home screen to start scoring.": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Создайте матч на главном экране, чтобы начать счёт."
+          }
+        }
+      }
+    },
+    "This permanently deletes the match in progress and all its frames.": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Текущий матч и все его фреймы будут удалены безвозвратно."
+          }
+        }
+      }
+    },
+    "Best of %lld · %lld frames played": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Лучший из %1$lld · сыграно фреймов: %2$lld"
+          }
+        }
+      }
+    },
+    "Ahead: %lld": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Впереди: %lld"
+          }
+        }
+      }
+    },
+    "Behind: %lld": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Позади: %lld"
+          }
+        }
+      }
+    },
+    "Break": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Брейк"
+          }
+        }
+      }
+    },
+    "%lld pts": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld очк."
+          }
+        }
+      }
+    },
+    "On table: %lld": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "На столе: %lld"
+          }
+        }
+      }
+    },
+    "Undo": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Отменить"
+          }
+        }
+      }
+    },
+    "Edit": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Правка"
+          }
+        }
+      }
+    },
+    "Foul": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Фол"
+          }
+        }
+      }
+    },
+    "Free ball": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Свободный шар"
+          }
+        }
+      }
+    },
+    "End frame": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Завершить фрейм"
+          }
+        }
+      }
+    },
+    "Miss / safety": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Промах / отыгрыш"
+          }
+        }
+      }
+    },
+    "End break": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Завершить подход"
+          }
+        }
+      }
+    },
+    "Match complete": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Матч завершён"
+          }
+        }
+      }
+    },
+    "Winner: %@": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Победитель: %@"
+          }
+        }
+      }
+    },
+    "%lld – %lld frames": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$lld – %2$lld фреймов"
+          }
+        }
+      }
+    },
+    "Back to matches": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "К матчам"
+          }
+        }
+      }
+    },
+    "Undo last frame": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Отменить фрейм"
+          }
+        }
+      }
+    },
+    "Edit frame": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Правка фрейма"
+          }
+        }
+      }
+    },
+    "Reds on table": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Красные на столе"
+          }
+        }
+      }
+    },
+    "Use if a red left the table without being potted. Points on table recalculate automatically.": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Если красный покинул стол без забивания. Очки на столе пересчитаются автоматически."
+          }
+        }
+      }
+    },
+    "Concede frame": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Сдать фрейм"
+          }
+        }
+      }
+    },
+    "%@ wins frame": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ выигрывает фрейм"
+          }
+        }
+      }
+    },
+    "Award the current frame and move on.": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Присудить текущий фрейм и продолжить."
+          }
+        }
+      }
+    },
+    "End match early": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Завершить матч досрочно"
+          }
+        }
+      }
+    },
+    "End match…": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Завершить матч…"
+          }
+        }
+      }
+    },
+    "Use when a player cannot finish the match.": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Если игрок не может доиграть матч."
+          }
+        }
+      }
+    },
+    "Foul — choose penalty": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Фол — выберите штраф"
+          }
+        }
+      }
+    },
+    "+%lld to %@": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "+%lld к %@"
+          }
+        }
+      }
+    },
+    "Who plays next?": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Кто играет дальше?"
+          }
+        }
+      }
+    },
+    "%@ plays": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ играет"
+          }
+        }
+      }
+    },
+    "%@ plays again": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ играет снова"
+          }
+        }
+      }
+    },
+    "Respotted black — sudden death": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Чёрный на место — внезапная смерть"
+          }
+        }
+      }
+    },
+    "Scores level!": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Равный счёт!"
+          }
+        }
+      }
+    },
+    "The black is respotted. Toss to decide who plays first — first to pot the black wins; a foul loses the frame.": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Чёрный ставится на место. Жребий решает, кто играет первым — кто забьёт чёрного, тот выигрывает; фол — проигрыш фрейма."
+          }
+        }
+      }
+    },
+    "%@ plays first": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ играет первым"
+          }
+        }
+      }
+    },
+    "Select player": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Выбор игрока"
+          }
+        }
+      }
+    },
+    "No players found": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Игроки не найдены"
+          }
+        }
+      }
+    },
+    "Try a different name.": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Попробуйте другое имя."
+          }
+        }
+      }
+    },
+    "Search by name": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Поиск по имени"
+          }
+        }
+      }
+    },
+    "No tournaments yet": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Пока нет турниров"
+          }
+        }
+      }
+    },
+    "Create one with the + button in the top-right corner.": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Создайте турнир кнопкой + в правом верхнем углу."
+          }
+        }
+      }
+    },
+    "Active": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Активные"
+          }
+        }
+      }
+    },
+    "Completed": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Завершённые"
+          }
+        }
+      }
+    },
+    "%lld players": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld игроков"
+          }
+        }
+      }
+    },
+    "Delete tournament?": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Удалить турнир?"
+          }
+        }
+      }
+    },
+    "This permanently deletes the tournament and all its matches.": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Турнир и все его матчи будут удалены безвозвратно."
+          }
+        }
+      }
+    },
+    "New tournament": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Новый турнир"
+          }
+        }
+      }
+    },
+    "Size": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Размер"
+          }
+        }
+      }
+    },
+    "Seeding": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Посев"
+          }
+        }
+      }
+    },
+    "Seed %lld": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Сид %lld"
+          }
+        }
+      }
+    },
+    "You need at least %lld players. Add players from the home screen first.": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Нужно минимум %lld игроков. Сначала добавьте игроков на главном экране."
+          }
+        }
+      }
+    },
+    "Winners": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Верхняя сетка"
+          }
+        }
+      }
+    },
+    "Losers": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Нижняя сетка"
+          }
+        }
+      }
+    },
+    "Grand final": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Гранд-финал"
+          }
+        }
+      }
+    },
+    "Final": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Финал"
+          }
+        }
+      }
+    },
+    "Winners final": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Финал ВС"
+          }
+        }
+      }
+    },
+    "Losers final": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Финал НС"
+          }
+        }
+      }
+    },
+    "Round %lld": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Раунд %lld"
+          }
+        }
+      }
+    },
+    "Waiting": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ожидание"
+          }
+        }
+      }
+    },
+    "Ready": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Готов"
+          }
+        }
+      }
+    },
+    "Live": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Идёт"
+          }
+        }
+      }
+    },
+    "Start": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Начать"
+          }
+        }
+      }
+    },
+    "Tap the ball you played — scores %lld": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Нажмите забитый шар — очки: %lld"
+          }
+        }
+      }
+    },
+    "Snookered after a foul? Tap to nominate a free ball.": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Снукер после фола? Нажмите, чтобы назначить свободный шар."
+          }
+        }
+      }
+    },
+    "+%lld": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "+%lld"
+          }
+        }
+      }
+    },
+    "%@ won": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ победил"
+          }
+        }
+      }
+    }
+  },
+  "version": "1.0"
+}

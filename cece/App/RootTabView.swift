@@ -7,23 +7,23 @@ struct RootTabView: View {
     var body: some View {
         TabView {
             HomeView(dependencies: dependencies)
-                .tabItem { Label("Главная", systemImage: "house") }
+                .tabItem { Label("Home", systemImage: "house") }
 
             MatchView()
-                .tabItem { Label("Матч", systemImage: "target") }
+                .tabItem { Label("Match", systemImage: "target") }
 
             NavigationStack {
                 TournamentsListView(dependencies: dependencies)
             }
-            .tabItem { Label("Турниры", systemImage: "trophy") }
+            .tabItem { Label("Tournaments", systemImage: "trophy") }
 
             NavigationStack {
                 ReviewMatchesView(dependencies: dependencies)
             }
-            .tabItem { Label("Стат.", systemImage: "rectangle.split.2x1") }
+            .tabItem { Label("Stats", systemImage: "rectangle.split.2x1") }
 
             SettingsView()
-                .tabItem { Label("Настр.", systemImage: "gearshape") }
+                .tabItem { Label("Settings", systemImage: "gearshape") }
         }
         .tint(Theme.Palette.teal)
     }

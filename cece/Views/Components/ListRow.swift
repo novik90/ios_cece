@@ -4,9 +4,11 @@ import SwiftUI
 /// trailing accessory on the caption line. Used across the player and tournament
 /// lists.
 struct ListRow<Trailing: View>: View {
+    /// A name shown verbatim (player/tournament), not localized.
     let title: String
     var titleFont: Font = .body
-    var caption: String? = nil
+    /// Localizable caption (e.g. "%lld players").
+    var caption: LocalizedStringKey? = nil
     @ViewBuilder var trailing: () -> Trailing
 
     var body: some View {
@@ -28,7 +30,7 @@ struct ListRow<Trailing: View>: View {
 }
 
 extension ListRow where Trailing == EmptyView {
-    init(title: String, titleFont: Font = .body, caption: String? = nil) {
+    init(title: String, titleFont: Font = .body, caption: LocalizedStringKey? = nil) {
         self.init(title: title, titleFont: titleFont, caption: caption) { EmptyView() }
     }
 }
