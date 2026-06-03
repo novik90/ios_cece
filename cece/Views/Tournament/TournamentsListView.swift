@@ -72,19 +72,9 @@ struct TournamentsListView: View {
 
     private func row(_ tournament: Tournament) -> some View {
         NavigationLink(value: tournament) {
-            VStack(alignment: .leading, spacing: 4) {
-                Text(tournament.name)
-                    .font(.headline)
-                    .foregroundStyle(Theme.Palette.textPrimary)
-                HStack {
-                    Text("\(tournament.size.rawValue) игроков")
-                    Spacer()
-                    status(tournament)
-                }
-                .font(.caption)
-                .foregroundStyle(.secondary)
+            ListRow(title: tournament.name, titleFont: .headline, caption: "\(tournament.size.rawValue) игроков") {
+                status(tournament)
             }
-            .padding(.vertical, 2)
         }
     }
 

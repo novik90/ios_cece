@@ -77,19 +77,8 @@ struct NewMatchView: View {
     }
 
     private func playerRow(title: String, player: Player?, slot: PlayerSlot) -> some View {
-        Button {
+        SelectRow(title: title, value: player?.name, placeholder: "Select") {
             pickingSlot = slot
-        } label: {
-            HStack {
-                Text(title)
-                    .foregroundStyle(Theme.Palette.textPrimary)
-                Spacer()
-                Text(player?.name ?? "Select")
-                    .foregroundStyle(player == nil ? .secondary : Theme.Palette.textSecondary)
-                Image(systemName: "chevron.right")
-                    .font(.caption.weight(.semibold))
-                    .foregroundStyle(.tertiary)
-            }
         }
     }
 }
