@@ -30,12 +30,34 @@ extension Color {
 enum Theme {
     enum Palette {
         static let background = Color(.systemGroupedBackground)   // #f2f2f7
+        /// Card / grouped-row surface that sits on top of `background`.
+        static let surface = Color(.secondarySystemGroupedBackground)
         static let teal = Color(hex: "#3cb89a")
         static let blue = Color(hex: "#4a7fd4")
         static let textPrimary = Color(hex: "#1c1c1e")
         static let textSecondary = Color(hex: "#8e8e93")
         static let border = Color(hex: "#c8c8cc")
         static let separator = Color(hex: "#e5e5ea")
+        /// Destructive actions (delete, foul) — system red for platform familiarity.
+        static let destructive = Color.red
+        /// Error / validation messages.
+        static let error = Color.red
+    }
+
+    /// Status colours for tournament bracket nodes (and related badges).
+    enum Status {
+        static let waiting = Palette.textSecondary
+        static let ready = Palette.teal
+        static let inProgress = Palette.blue
+        static let completed = Palette.textPrimary
+        static let champion = Palette.teal
+    }
+
+    /// Corner-radius scale, used across cards, buttons and tiles.
+    enum Radius {
+        static let small: CGFloat = 10
+        static let medium: CGFloat = 12
+        static let large: CGFloat = 16
     }
 
     /// Standard snooker ball colors keyed by their point value.
@@ -44,7 +66,7 @@ enum Theme {
         static let yellow = Color(hex: "#e8b800")
         static let green = Color(hex: "#2a7d32")
         static let brown = Color(hex: "#b86e18")
-        static let blue = Color(hex: "#4a7fd4")
+        static let blue = Palette.blue   // same #4a7fd4, kept in one place
         static let pink = Color(hex: "#e060a0")
         static let black = Color(hex: "#1c1c1e")
 

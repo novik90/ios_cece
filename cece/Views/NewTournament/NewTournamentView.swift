@@ -46,7 +46,7 @@ struct NewTournamentView: View {
             }
 
             if let error = viewModel.errorMessage {
-                Section { Text(error).foregroundStyle(.red) }
+                Section { Text(error).foregroundStyle(Theme.Palette.error) }
             }
         }
         .navigationTitle("Новый турнир")

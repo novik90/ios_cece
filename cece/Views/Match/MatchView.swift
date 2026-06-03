@@ -227,7 +227,7 @@ private struct ScoreboardView: View {
         if diff > 0 {
             Text("Ahead: \(diff)").font(.caption).foregroundStyle(Theme.Palette.teal)
         } else if diff < 0 {
-            Text("Behind: \(-diff)").font(.caption).foregroundStyle(Color(hex: "#e74c4c"))
+            Text("Behind: \(-diff)").font(.caption).foregroundStyle(Theme.Palette.destructive)
         } else {
             // Level: keep the row height, show nothing.
             Text("Ahead: 0").font(.caption).hidden()
@@ -272,7 +272,7 @@ private struct BreakSummaryView: View {
             }
         }
         .padding(14)
-        .background(Color(.secondarySystemGroupedBackground), in: RoundedRectangle(cornerRadius: 14))
+        .background(Theme.Palette.surface, in: RoundedRectangle(cornerRadius: 14))
     }
 }
 
@@ -293,7 +293,7 @@ private struct ActionsRow: View {
             }
             .disabled(viewModel.matchCompleted)
 
-            actionButton(system: "flag.fill", label: "Foul", foreground: .white, background: Color(hex: "#e74c4c")) {
+            actionButton(system: "flag.fill", label: "Foul", foreground: .white, background: Theme.Palette.destructive) {
                 viewModel.beginFoul()
             }
             .disabled(viewModel.matchCompleted)
@@ -305,7 +305,7 @@ private struct ActionsRow: View {
         system: String,
         label: String,
         foreground: Color = Theme.Palette.textPrimary,
-        background: Color = Color(.secondarySystemGroupedBackground),
+        background: Color = Theme.Palette.surface,
         action: @escaping () -> Void
     ) -> some View {
         Button(action: action) {
@@ -343,7 +343,7 @@ private struct FreeBallBanner: View {
                 Spacer()
                 Text(viewModel.freeBallArmed ? "Cancel" : "+\(viewModel.freeBallValue)")
                     .font(.subheadline.weight(.semibold).monospacedDigit())
-                    .foregroundStyle(viewModel.freeBallArmed ? Color(hex: "#e74c4c") : Theme.Palette.teal)
+                    .foregroundStyle(viewModel.freeBallArmed ? Theme.Palette.destructive : Theme.Palette.teal)
             }
             .padding(.horizontal, 14)
             .padding(.vertical, 12)
@@ -488,7 +488,7 @@ private struct FoulPenaltySheet: View {
                             .frame(maxWidth: .infinity).padding(.vertical, 16)
                     }
                     .foregroundStyle(.white)
-                    .background(Color(hex: "#e74c4c"), in: RoundedRectangle(cornerRadius: 12))
+                    .background(Theme.Palette.destructive, in: RoundedRectangle(cornerRadius: 12))
                 }
             }
             Text("Awarded to the opponent.").font(.footnote).foregroundStyle(.secondary)
@@ -526,7 +526,7 @@ private struct FoulTurnSheet: View {
                         .frame(maxWidth: .infinity).padding(.vertical, 14)
                 }
                 .foregroundStyle(Theme.Palette.textPrimary)
-                .background(Color(.secondarySystemGroupedBackground), in: RoundedRectangle(cornerRadius: 12))
+                .background(Theme.Palette.surface, in: RoundedRectangle(cornerRadius: 12))
             }
         }
         .padding(24)
@@ -633,7 +633,7 @@ private struct CompletionOverlay: View {
                         Text("Undo last frame").frame(maxWidth: .infinity).padding(.vertical, 12)
                     }
                     .foregroundStyle(Theme.Palette.textPrimary)
-                    .background(Color(.secondarySystemGroupedBackground), in: RoundedRectangle(cornerRadius: 12))
+                    .background(Theme.Palette.surface, in: RoundedRectangle(cornerRadius: 12))
                 }
             }
             .padding(28)

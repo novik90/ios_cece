@@ -22,10 +22,10 @@ struct BracketMatchCard: View {
 
         var color: Color {
             switch self {
-            case .waiting: return Theme.Palette.textSecondary
-            case .ready: return Theme.Palette.teal
-            case .inProgress: return Theme.Palette.blue
-            case .completed: return Theme.Palette.textPrimary
+            case .waiting: return Theme.Status.waiting
+            case .ready: return Theme.Status.ready
+            case .inProgress: return Theme.Status.inProgress
+            case .completed: return Theme.Status.completed
             }
         }
     }
@@ -46,10 +46,10 @@ struct BracketMatchCard: View {
             slotRow(node.slot2PlayerId)
             statusBadge
         }
-        .background(Color(.secondarySystemGroupedBackground))
-        .clipShape(RoundedRectangle(cornerRadius: 10))
+        .background(Theme.Palette.surface)
+        .clipShape(RoundedRectangle(cornerRadius: Theme.Radius.small))
         .overlay(
-            RoundedRectangle(cornerRadius: 10)
+            RoundedRectangle(cornerRadius: Theme.Radius.small)
                 .stroke(isTappable ? status.color : Theme.Palette.border,
                         lineWidth: isTappable ? 1.5 : 1)
         )
