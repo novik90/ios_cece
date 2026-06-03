@@ -103,7 +103,7 @@ struct TournamentBracketView: View {
     private func championBanner(_ championId: UUID) -> some View {
         HStack(spacing: 10) {
             Image(systemName: "trophy.fill")
-                .foregroundStyle(Theme.Palette.teal)
+                .foregroundStyle(Theme.Status.champion)
             VStack(alignment: .leading, spacing: 2) {
                 Text("Чемпион").font(.caption).foregroundStyle(Theme.Palette.textSecondary)
                 Text(name(championId)).font(.headline).foregroundStyle(Theme.Palette.textPrimary)
@@ -111,8 +111,8 @@ struct TournamentBracketView: View {
             Spacer()
         }
         .padding()
-        .background(Theme.Palette.teal.opacity(0.12))
-        .clipShape(RoundedRectangle(cornerRadius: 12))
+        .background(Theme.Status.champion.opacity(0.12))
+        .clipShape(RoundedRectangle(cornerRadius: Theme.Radius.medium))
         .padding(.horizontal)
     }
 
