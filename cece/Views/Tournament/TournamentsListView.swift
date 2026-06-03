@@ -27,18 +27,18 @@ struct TournamentsListView: View {
                 List {
                     if !viewModel.active.isEmpty {
                         Section("Активные") {
-                            ForEach(viewModel.active) { row($0) }
-                                .onDelete { offsets in
-                                    pendingDelete = offsets.first.map { viewModel.active[$0] }
-                                }
+                            ForEach(viewModel.active) { tournament in
+                                row(tournament)
+                                    .deleteSwipeAction { pendingDelete = tournament }
+                            }
                         }
                     }
                     if !viewModel.completed.isEmpty {
                         Section("Завершённые") {
-                            ForEach(viewModel.completed) { row($0) }
-                                .onDelete { offsets in
-                                    pendingDelete = offsets.first.map { viewModel.completed[$0] }
-                                }
+                            ForEach(viewModel.completed) { tournament in
+                                row(tournament)
+                                    .deleteSwipeAction { pendingDelete = tournament }
+                            }
                         }
                     }
                 }

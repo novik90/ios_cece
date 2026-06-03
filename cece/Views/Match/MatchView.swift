@@ -12,7 +12,7 @@ struct MatchView: View {
         order: .reverse
     )
     private var activeMatches: [Match]
-    @State private var pendingDelete: IndexSet?
+    @State private var pendingDelete: Match?
 
     private var playableMatches: [Match] {
         activeMatches.filter { $0.player1 != nil && $0.player2 != nil }
@@ -34,8 +34,8 @@ struct MatchView: View {
                                 NavigationLink(value: match) {
                                     ActiveMatchRow(match: match)
                                 }
+                                .deleteSwipeAction { pendingDelete = match }
                             }
-                            .onDelete { pendingDelete = $0 }
                         }
                     }
                 }
@@ -49,16 +49,13 @@ struct MatchView: View {
                 item: $pendingDelete,
                 message: "This permanently deletes the match in progress and all its frames.",
                 confirmLabel: "Delete match"
-            ) { delete(at: $0) }
+            ) { delete($0) }
         }
     }
 
-    private func delete(at offsets: IndexSet) {
-        for index in offsets {
-            let match = playableMatches[index]
-            dependencies.releaseMatchViewModel(for: match.id)
-            modelContext.delete(match)
-        }
+    private func delete(_ match: Match) {
+        dependencies.releaseMatchViewModel(for: match.id)
+        modelContext.delete(match)
         try? modelContext.save()
     }
 }
