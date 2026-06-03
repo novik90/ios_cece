@@ -68,7 +68,7 @@ private struct ActiveMatchRow: View {
             VStack(alignment: .leading, spacing: 2) {
                 Text("\(match.player1?.name ?? "—") vs \(match.player2?.name ?? "—")")
                     .font(.body)
-                Text("Best of \(match.totalFrames) · \(match.frames.count) frame\(match.frames.count == 1 ? "" : "s") played")
+                Text("Best of \(match.totalFrames) · \(match.frames.count) frames played")
                     .font(.caption)
                     .foregroundStyle(.secondary)
             }
@@ -145,7 +145,7 @@ struct MatchPlayView: View {
         }
     }
 
-    private var endButtonTitle: String {
+    private var endButtonTitle: LocalizedStringKey {
         if viewModel.isEndFrame { return "End frame" }
         return viewModel.currentBreakBalls.isEmpty ? "Miss / safety" : "End break"
     }
@@ -290,7 +290,7 @@ private struct ActionsRow: View {
 
     private func actionButton(
         system: String,
-        label: String,
+        label: LocalizedStringKey,
         foreground: Color = Theme.Palette.textPrimary,
         background: Color = Theme.Palette.surface,
         action: @escaping () -> Void
@@ -322,13 +322,15 @@ private struct FreeBallBanner: View {
                     .font(.title3)
                 VStack(alignment: .leading, spacing: 1) {
                     Text("Free ball").font(.subheadline.weight(.semibold))
-                    Text(viewModel.freeBallArmed
-                         ? "Tap the ball you played — scores \(viewModel.freeBallValue)"
-                         : "Snookered after a foul? Tap to nominate a free ball.")
+                    let hint: LocalizedStringKey = viewModel.freeBallArmed
+                        ? "Tap the ball you played — scores \(viewModel.freeBallValue)"
+                        : "Snookered after a foul? Tap to nominate a free ball."
+                    Text(hint)
                         .font(.caption2).foregroundStyle(.secondary)
                 }
                 Spacer()
-                Text(viewModel.freeBallArmed ? "Cancel" : "+\(viewModel.freeBallValue)")
+                let trailing: LocalizedStringKey = viewModel.freeBallArmed ? "Cancel" : "+\(viewModel.freeBallValue)"
+                Text(trailing)
                     .font(.subheadline.weight(.semibold).monospacedDigit())
                     .foregroundStyle(viewModel.freeBallArmed ? Theme.Palette.destructive : Theme.Palette.teal)
             }

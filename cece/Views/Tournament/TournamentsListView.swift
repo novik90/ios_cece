@@ -19,14 +19,14 @@ struct TournamentsListView: View {
         Group {
             if viewModel.tournaments.isEmpty {
                 ContentUnavailableView(
-                    "Пока нет турниров",
+                    "No tournaments yet",
                     systemImage: "trophy",
-                    description: Text("Создайте турнир кнопкой + в правом верхнем углу.")
+                    description: Text("Create one with the + button in the top-right corner.")
                 )
             } else {
                 List {
                     if !viewModel.active.isEmpty {
-                        Section("Активные") {
+                        Section("Active") {
                             ForEach(viewModel.active) { tournament in
                                 row(tournament)
                                     .deleteSwipeAction { pendingDelete = tournament }
@@ -34,7 +34,7 @@ struct TournamentsListView: View {
                         }
                     }
                     if !viewModel.completed.isEmpty {
-                        Section("Завершённые") {
+                        Section("Completed") {
                             ForEach(viewModel.completed) { tournament in
                                 row(tournament)
                                     .deleteSwipeAction { pendingDelete = tournament }
@@ -44,7 +44,7 @@ struct TournamentsListView: View {
                 }
             }
         }
-        .navigationTitle("Турниры")
+        .navigationTitle("Tournaments")
         .toolbar {
             ToolbarItem(placement: .primaryAction) {
                 NavigationLink {
@@ -58,11 +58,11 @@ struct TournamentsListView: View {
             TournamentBracketView(tournament: tournament, dependencies: dependencies)
         }
         .deleteConfirmation(
-            "Удалить турнир?",
+            "Delete tournament?",
             item: $pendingDelete,
-            message: "Турнир и все его матчи будут удалены безвозвратно.",
-            confirmLabel: "Удалить",
-            cancelLabel: "Отмена"
+            message: "This permanently deletes the tournament and all its matches.",
+            confirmLabel: "Delete",
+            cancelLabel: "Cancel"
         ) { viewModel.delete($0) }
         .onAppear {
             viewModel.load()
@@ -72,7 +72,7 @@ struct TournamentsListView: View {
 
     private func row(_ tournament: Tournament) -> some View {
         NavigationLink(value: tournament) {
-            ListRow(title: tournament.name, titleFont: .headline, caption: "\(tournament.size.rawValue) игроков") {
+            ListRow(title: tournament.name, titleFont: .headline, caption: "\(tournament.size.rawValue) players") {
                 status(tournament)
             }
         }
@@ -81,10 +81,10 @@ struct TournamentsListView: View {
     @ViewBuilder
     private func status(_ tournament: Tournament) -> some View {
         if let championId = tournament.championId {
-            Label(namesById[championId] ?? "Чемпион", systemImage: "trophy.fill")
+            Label(namesById[championId] ?? "Champion", systemImage: "trophy.fill")
                 .foregroundStyle(Theme.Palette.teal)
         } else {
-            Text("В процессе")
+            Text("In progress")
         }
     }
 

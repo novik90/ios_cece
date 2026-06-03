@@ -6,5 +6,5 @@ import Foundation
 @MainActor
 final class HomeViewModel: ObservableObject {
     let title = "ce·ce"
-    let subtitle = "one ball at a time."
+    let subtitle = String(localized: "one ball at a time.")
 }

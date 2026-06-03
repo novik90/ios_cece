@@ -76,7 +76,7 @@ struct NewMatchView: View {
         .onAppear { viewModel.loadPlayers() }
     }
 
-    private func playerRow(title: String, player: Player?, slot: PlayerSlot) -> some View {
+    private func playerRow(title: LocalizedStringKey, player: Player?, slot: PlayerSlot) -> some View {
         SelectRow(title: title, value: player?.name, placeholder: "Select") {
             pickingSlot = slot
         }

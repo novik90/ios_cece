@@ -11,12 +11,12 @@ struct BracketMatchCard: View {
     enum Status {
         case waiting, ready, inProgress, completed
 
-        var label: String {
+        var label: LocalizedStringKey {
             switch self {
-            case .waiting: return "Ожидание"
-            case .ready: return "Готов"
-            case .inProgress: return "Идёт"
-            case .completed: return "Завершён"
+            case .waiting: return "Waiting"
+            case .ready: return "Ready"
+            case .inProgress: return "Live"
+            case .completed: return "Done"
             }
         }
 

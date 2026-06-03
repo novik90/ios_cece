@@ -98,7 +98,7 @@ struct HomeView: View {
 private struct HomePrimaryRow: View {
     let iconSystemName: String
     let iconBackground: Color
-    let title: String
+    let title: LocalizedStringKey
 
     var body: some View {
         HStack(spacing: 14) {
@@ -137,7 +137,7 @@ private struct HomePrimaryRow: View {
 /// Borderless secondary action row in the secondary text colour.
 private struct HomeSecondaryRow: View {
     let iconSystemName: String
-    let title: String
+    let title: LocalizedStringKey
 
     var body: some View {
         HStack(spacing: 14) {

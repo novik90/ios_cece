@@ -21,17 +21,17 @@ struct NewTournamentView: View {
         Form {
             if !viewModel.hasEnoughPlayers {
                 Section {
-                    Text("Нужно минимум \(viewModel.size.rawValue) игроков. Добавьте игроков на главном экране.")
+                    Text("You need at least \(viewModel.size.rawValue) players. Add players from the home screen first.")
                         .foregroundStyle(.secondary)
                 }
             }
 
-            Section("Турнир") {
-                TextField("Название", text: $viewModel.name)
+            Section("Tournament") {
+                TextField("Name", text: $viewModel.name)
             }
 
-            Section("Размер") {
-                Picker("Игроков", selection: $viewModel.size) {
+            Section("Size") {
+                Picker("Players", selection: $viewModel.size) {
                     ForEach(TournamentSize.allCases, id: \.self) { size in
                         Text("\(size.rawValue)").tag(size)
                     }
@@ -39,7 +39,7 @@ struct NewTournamentView: View {
                 .pickerStyle(.segmented)
             }
 
-            Section("Посев") {
+            Section("Seeding") {
                 ForEach(viewModel.seedIndices, id: \.self) { index in
                     seedRow(index: index)
                 }
@@ -49,11 +49,11 @@ struct NewTournamentView: View {
                 Section { Text(error).foregroundStyle(Theme.Palette.error) }
             }
         }
-        .navigationTitle("Новый турнир")
+        .navigationTitle("New tournament")
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
             ToolbarItem(placement: .confirmationAction) {
-                Button("Создать") {
+                Button("Create") {
                     createdTournament = viewModel.createTournament()
                 }
                 .disabled(!viewModel.canCreate)
@@ -76,7 +76,7 @@ struct NewTournamentView: View {
     }
 
     private func seedRow(index: Int) -> some View {
-        SelectRow(title: "Сид \(index + 1)", value: viewModel.seeds[index]?.name, placeholder: "Выбрать") {
+        SelectRow(title: "Seed \(index + 1)", value: viewModel.seeds[index]?.name, placeholder: "Select") {
             pickingSeed = SeedSlot(id: index)
         }
     }
