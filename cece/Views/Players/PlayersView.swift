@@ -38,19 +38,12 @@ struct PlayersView: View {
         .navigationDestination(for: Player.self) { player in
             PlayerDetailView(player: player, stats: viewModel.stats(for: player))
         }
-        .confirmationDialog(
+        .deleteConfirmation(
             "Delete player?",
-            isPresented: Binding(get: { pendingDelete != nil }, set: { if !$0 { pendingDelete = nil } }),
-            titleVisibility: .visible
-        ) {
-            Button("Delete player", role: .destructive) {
-                if let offsets = pendingDelete { viewModel.delete(at: offsets) }
-                pendingDelete = nil
-            }
-            Button("Cancel", role: .cancel) { pendingDelete = nil }
-        } message: {
-            Text("This permanently deletes the player. Their past matches stay but will show no name.")
-        }
+            item: $pendingDelete,
+            message: "This permanently deletes the player. Their past matches stay but will show no name.",
+            confirmLabel: "Delete player"
+        ) { viewModel.delete(at: $0) }
         .onAppear { viewModel.load() }
     }
 

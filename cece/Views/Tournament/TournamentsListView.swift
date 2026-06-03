@@ -28,11 +28,17 @@ struct TournamentsListView: View {
                     if !viewModel.active.isEmpty {
                         Section("Активные") {
                             ForEach(viewModel.active) { row($0) }
+                                .onDelete { offsets in
+                                    pendingDelete = offsets.first.map { viewModel.active[$0] }
+                                }
                         }
                     }
                     if !viewModel.completed.isEmpty {
                         Section("Завершённые") {
                             ForEach(viewModel.completed) { row($0) }
+                                .onDelete { offsets in
+                                    pendingDelete = offsets.first.map { viewModel.completed[$0] }
+                                }
                         }
                     }
                 }
@@ -51,19 +57,13 @@ struct TournamentsListView: View {
         .navigationDestination(for: Tournament.self) { tournament in
             TournamentBracketView(tournament: tournament, dependencies: dependencies)
         }
-        .confirmationDialog(
+        .deleteConfirmation(
             "Удалить турнир?",
-            isPresented: Binding(get: { pendingDelete != nil }, set: { if !$0 { pendingDelete = nil } }),
-            titleVisibility: .visible
-        ) {
-            Button("Удалить", role: .destructive) {
-                if let tournament = pendingDelete { viewModel.delete(tournament) }
-                pendingDelete = nil
-            }
-            Button("Отмена", role: .cancel) { pendingDelete = nil }
-        } message: {
-            Text("Турнир и все его матчи будут удалены безвозвратно.")
-        }
+            item: $pendingDelete,
+            message: "Турнир и все его матчи будут удалены безвозвратно.",
+            confirmLabel: "Удалить",
+            cancelLabel: "Отмена"
+        ) { viewModel.delete($0) }
         .onAppear {
             viewModel.load()
             loadNames()
@@ -85,9 +85,6 @@ struct TournamentsListView: View {
                 .foregroundStyle(.secondary)
             }
             .padding(.vertical, 2)
-        }
-        .swipeActions {
-            Button("Удалить", role: .destructive) { pendingDelete = tournament }
         }
     }
 

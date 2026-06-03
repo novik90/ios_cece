@@ -47,19 +47,12 @@ struct ReviewMatchesView: View {
         .navigationDestination(for: Match.self) { match in
             MatchDetailView(match: match, dependencies: dependencies)
         }
-        .confirmationDialog(
+        .deleteConfirmation(
             "Delete match?",
-            isPresented: Binding(get: { pendingDelete != nil }, set: { if !$0 { pendingDelete = nil } }),
-            titleVisibility: .visible
-        ) {
-            Button("Delete match", role: .destructive) {
-                if let toDelete = pendingDelete { viewModel.delete(toDelete) }
-                pendingDelete = nil
-            }
-            Button("Cancel", role: .cancel) { pendingDelete = nil }
-        } message: {
-            Text("This permanently deletes the match and all its frames.")
-        }
+            item: $pendingDelete,
+            message: "This permanently deletes the match and all its frames.",
+            confirmLabel: "Delete match"
+        ) { viewModel.delete($0) }
         .onAppear { viewModel.load() }
     }
 

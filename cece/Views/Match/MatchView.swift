@@ -44,19 +44,12 @@ struct MatchView: View {
             .navigationDestination(for: Match.self) { match in
                 MatchPlayView(viewModel: dependencies.liveMatchViewModel(for: match))
             }
-            .confirmationDialog(
+            .deleteConfirmation(
                 "Delete match?",
-                isPresented: Binding(get: { pendingDelete != nil }, set: { if !$0 { pendingDelete = nil } }),
-                titleVisibility: .visible
-            ) {
-                Button("Delete match", role: .destructive) {
-                    if let offsets = pendingDelete { delete(at: offsets) }
-                    pendingDelete = nil
-                }
-                Button("Cancel", role: .cancel) { pendingDelete = nil }
-            } message: {
-                Text("This permanently deletes the match in progress and all its frames.")
-            }
+                item: $pendingDelete,
+                message: "This permanently deletes the match in progress and all its frames.",
+                confirmLabel: "Delete match"
+            ) { delete(at: $0) }
         }
     }
 
