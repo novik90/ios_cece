@@ -49,15 +49,10 @@ struct PlayersView: View {
 
     private func row(for player: Player) -> some View {
         let stats = viewModel.stats(for: player)
-        return VStack(alignment: .leading, spacing: 3) {
-            Text(player.name)
-                .font(.body)
-                .foregroundStyle(Theme.Palette.textPrimary)
-            Text("\(stats.played) played · \(stats.wins) wins · \(stats.losses) losses")
-                .font(.caption)
-                .foregroundStyle(.secondary)
-        }
-        .padding(.vertical, 2)
+        return ListRow(
+            title: player.name,
+            caption: "\(stats.played) played · \(stats.wins) wins · \(stats.losses) losses"
+        )
     }
 }
 

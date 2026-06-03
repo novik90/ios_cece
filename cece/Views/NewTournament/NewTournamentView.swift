@@ -76,19 +76,8 @@ struct NewTournamentView: View {
     }
 
     private func seedRow(index: Int) -> some View {
-        Button {
+        SelectRow(title: "Сид \(index + 1)", value: viewModel.seeds[index]?.name, placeholder: "Выбрать") {
             pickingSeed = SeedSlot(id: index)
-        } label: {
-            HStack {
-                Text("Сид \(index + 1)")
-                    .foregroundStyle(Theme.Palette.textPrimary)
-                Spacer()
-                Text(viewModel.seeds[index]?.name ?? "Выбрать")
-                    .foregroundStyle(viewModel.seeds[index] == nil ? .secondary : Theme.Palette.textSecondary)
-                Image(systemName: "chevron.right")
-                    .font(.caption.weight(.semibold))
-                    .foregroundStyle(.tertiary)
-            }
         }
     }
 }
