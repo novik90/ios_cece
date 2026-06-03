@@ -46,12 +46,10 @@ struct BracketMatchCard: View {
             slotRow(node.slot2PlayerId)
             statusBadge
         }
-        .background(Theme.Palette.surface)
-        .clipShape(RoundedRectangle(cornerRadius: Theme.Radius.small))
-        .overlay(
-            RoundedRectangle(cornerRadius: Theme.Radius.small)
-                .stroke(isTappable ? status.color : Theme.Palette.border,
-                        lineWidth: isTappable ? 1.5 : 1)
+        .cardStyle(
+            cornerRadius: Theme.Radius.small,
+            border: isTappable ? status.color : Theme.Palette.border,
+            lineWidth: isTappable ? 1.5 : 1
         )
         .frame(width: 168)
         .contentShape(Rectangle())
