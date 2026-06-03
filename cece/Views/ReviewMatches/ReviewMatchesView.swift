@@ -2,7 +2,7 @@ import SwiftUI
 
 struct ReviewMatchesView: View {
     @StateObject private var viewModel: ReviewMatchesViewModel
-    @State private var pendingDelete: [Match]?
+    @State private var pendingDelete: Match?
     private let dependencies: Dependencies
 
     init(dependencies: Dependencies) {
@@ -24,9 +24,7 @@ struct ReviewMatchesView: View {
                         Section("Tournament matches") {
                             ForEach(viewModel.tournamentMatches) { match in
                                 NavigationLink(value: match) { matchRow(match) }
-                            }
-                            .onDelete { offsets in
-                                pendingDelete = offsets.map { viewModel.tournamentMatches[$0] }
+                                    .deleteSwipeAction { pendingDelete = match }
                             }
                         }
                     }
@@ -34,9 +32,7 @@ struct ReviewMatchesView: View {
                         Section("Other matches") {
                             ForEach(viewModel.otherMatches) { match in
                                 NavigationLink(value: match) { matchRow(match) }
-                            }
-                            .onDelete { offsets in
-                                pendingDelete = offsets.map { viewModel.otherMatches[$0] }
+                                    .deleteSwipeAction { pendingDelete = match }
                             }
                         }
                     }
@@ -52,7 +48,7 @@ struct ReviewMatchesView: View {
             item: $pendingDelete,
             message: "This permanently deletes the match and all its frames.",
             confirmLabel: "Delete match"
-        ) { viewModel.delete($0) }
+        ) { viewModel.delete([$0]) }
         .onAppear { viewModel.load() }
     }
 

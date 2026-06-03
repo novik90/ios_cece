@@ -129,12 +129,9 @@ final class PlayersViewModel: ObservableObject {
         PlayerStats(player: player, matches: matches, tournaments: tournaments)
     }
 
-    func delete(at offsets: IndexSet) {
-        let toDelete = offsets.map { players[$0] }
+    func delete(_ player: Player) {
         do {
-            for player in toDelete {
-                try playerRepository.delete(player)
-            }
+            try playerRepository.delete(player)
             load()
         } catch {
             errorMessage = error.localizedDescription

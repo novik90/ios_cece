@@ -5,7 +5,7 @@ import SwiftUI
 /// `NavigationStack` (it is pushed from the home screen).
 struct PlayersView: View {
     @StateObject private var viewModel: PlayersViewModel
-    @State private var pendingDelete: IndexSet?
+    @State private var pendingDelete: Player?
 
     init(dependencies: Dependencies) {
         _viewModel = StateObject(wrappedValue: PlayersViewModel(
@@ -29,8 +29,8 @@ struct PlayersView: View {
                         NavigationLink(value: player) {
                             row(for: player)
                         }
+                        .deleteSwipeAction { pendingDelete = player }
                     }
-                    .onDelete { pendingDelete = $0 }
                 }
             }
         }
@@ -43,7 +43,7 @@ struct PlayersView: View {
             item: $pendingDelete,
             message: "This permanently deletes the player. Their past matches stay but will show no name.",
             confirmLabel: "Delete player"
-        ) { viewModel.delete(at: $0) }
+        ) { viewModel.delete($0) }
         .onAppear { viewModel.load() }
     }
 

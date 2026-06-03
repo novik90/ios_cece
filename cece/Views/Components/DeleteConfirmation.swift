@@ -1,6 +1,18 @@
 import SwiftUI
 
 extension View {
+    /// Standard swipe-to-delete action used across all lists: a red,
+    /// icon-only (trash) button, no text. Apply it to a row inside a `ForEach`.
+    func deleteSwipeAction(perform: @escaping () -> Void) -> some View {
+        swipeActions(allowsFullSwipe: true) {
+            Button(role: .destructive, action: perform) {
+                Label("Delete", systemImage: "trash")
+            }
+            .labelStyle(.iconOnly)
+            .tint(Theme.Palette.destructive)
+        }
+    }
+
     /// Shared destructive-delete confirmation dialog.
     ///
     /// Drive it with an optional `item`: set it (e.g. from a row's `.onDelete`)
