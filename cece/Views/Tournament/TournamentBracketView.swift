@@ -27,9 +27,9 @@ struct TournamentBracketView: View {
                 if let championId = tournament.championId {
                     championBanner(championId)
                 }
-                bracketSection("Верхняя сетка", .winners)
-                bracketSection("Нижняя сетка", .losers)
-                bracketSection("Гранд-финал", .grandFinal)
+                bracketSection("Winners", .winners)
+                bracketSection("Losers", .losers)
+                bracketSection("Grand final", .grandFinal)
             }
             .padding(.vertical)
         }
@@ -67,7 +67,7 @@ struct TournamentBracketView: View {
     // MARK: Sections
 
     @ViewBuilder
-    private func bracketSection(_ title: String, _ bracket: TournamentBracket) -> some View {
+    private func bracketSection(_ title: LocalizedStringKey, _ bracket: TournamentBracket) -> some View {
         let rounds = rounds(in: bracket)
         if !rounds.isEmpty {
             VStack(alignment: .leading, spacing: 10) {
@@ -103,16 +103,16 @@ struct TournamentBracketView: View {
     private func championBanner(_ championId: UUID) -> some View {
         HStack(spacing: 10) {
             Image(systemName: "trophy.fill")
-                .foregroundStyle(Theme.Palette.teal)
+                .foregroundStyle(Theme.Status.champion)
             VStack(alignment: .leading, spacing: 2) {
-                Text("Чемпион").font(.caption).foregroundStyle(Theme.Palette.textSecondary)
+                Text("Champion").font(.caption).foregroundStyle(Theme.Palette.textSecondary)
                 Text(name(championId)).font(.headline).foregroundStyle(Theme.Palette.textPrimary)
             }
             Spacer()
         }
         .padding()
-        .background(Theme.Palette.teal.opacity(0.12))
-        .clipShape(RoundedRectangle(cornerRadius: 12))
+        .background(Theme.Status.champion.opacity(0.12))
+        .clipShape(RoundedRectangle(cornerRadius: Theme.Radius.medium))
         .padding(.horizontal)
     }
 
@@ -128,11 +128,11 @@ struct TournamentBracketView: View {
             .sorted { $0.position < $1.position }
     }
 
-    private func roundTitle(_ bracket: TournamentBracket, _ round: Int) -> String {
-        if bracket == .grandFinal { return "Финал" }
+    private func roundTitle(_ bracket: TournamentBracket, _ round: Int) -> LocalizedStringKey {
+        if bracket == .grandFinal { return "Final" }
         let isLast = round == (rounds(in: bracket).last ?? round)
-        if isLast { return bracket == .winners ? "Финал ВС" : "Финал НС" }
-        return "Раунд \(round + 1)"
+        if isLast { return bracket == .winners ? "Winners final" : "Losers final" }
+        return "Round \(round + 1)"
     }
 
     private func name(_ id: UUID?) -> String {

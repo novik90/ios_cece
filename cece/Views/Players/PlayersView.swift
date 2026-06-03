@@ -5,7 +5,7 @@ import SwiftUI
 /// `NavigationStack` (it is pushed from the home screen).
 struct PlayersView: View {
     @StateObject private var viewModel: PlayersViewModel
-    @State private var pendingDelete: IndexSet?
+    @State private var pendingDelete: Player?
 
     init(dependencies: Dependencies) {
         _viewModel = StateObject(wrappedValue: PlayersViewModel(
@@ -29,8 +29,8 @@ struct PlayersView: View {
                         NavigationLink(value: player) {
                             row(for: player)
                         }
+                        .deleteSwipeAction { pendingDelete = player }
                     }
-                    .onDelete { pendingDelete = $0 }
                 }
             }
         }
@@ -38,33 +38,21 @@ struct PlayersView: View {
         .navigationDestination(for: Player.self) { player in
             PlayerDetailView(player: player, stats: viewModel.stats(for: player))
         }
-        .confirmationDialog(
+        .deleteConfirmation(
             "Delete player?",
-            isPresented: Binding(get: { pendingDelete != nil }, set: { if !$0 { pendingDelete = nil } }),
-            titleVisibility: .visible
-        ) {
-            Button("Delete player", role: .destructive) {
-                if let offsets = pendingDelete { viewModel.delete(at: offsets) }
-                pendingDelete = nil
-            }
-            Button("Cancel", role: .cancel) { pendingDelete = nil }
-        } message: {
-            Text("This permanently deletes the player. Their past matches stay but will show no name.")
-        }
+            item: $pendingDelete,
+            message: "This permanently deletes the player. Their past matches stay but will show no name.",
+            confirmLabel: "Delete player"
+        ) { viewModel.delete($0) }
         .onAppear { viewModel.load() }
     }
 
     private func row(for player: Player) -> some View {
         let stats = viewModel.stats(for: player)
-        return VStack(alignment: .leading, spacing: 3) {
-            Text(player.name)
-                .font(.body)
-                .foregroundStyle(Theme.Palette.textPrimary)
-            Text("\(stats.played) played · \(stats.wins) wins · \(stats.losses) losses")
-                .font(.caption)
-                .foregroundStyle(.secondary)
-        }
-        .padding(.vertical, 2)
+        return ListRow(
+            title: player.name,
+            caption: "\(stats.played) played · \(stats.wins) wins · \(stats.losses) losses"
+        )
     }
 }
 

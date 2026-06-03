@@ -17,7 +17,7 @@ struct NewPlayerView: View {
 
             if let error = viewModel.errorMessage {
                 Section {
-                    Text(error).foregroundStyle(.red)
+                    Text(error).foregroundStyle(Theme.Palette.error)
                 }
             }
         }

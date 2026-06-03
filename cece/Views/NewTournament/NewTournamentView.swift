@@ -21,17 +21,17 @@ struct NewTournamentView: View {
         Form {
             if !viewModel.hasEnoughPlayers {
                 Section {
-                    Text("Нужно минимум \(viewModel.size.rawValue) игроков. Добавьте игроков на главном экране.")
+                    Text("You need at least \(viewModel.size.rawValue) players. Add players from the home screen first.")
                         .foregroundStyle(.secondary)
                 }
             }
 
-            Section("Турнир") {
-                TextField("Название", text: $viewModel.name)
+            Section("Tournament") {
+                TextField("Name", text: $viewModel.name)
             }
 
-            Section("Размер") {
-                Picker("Игроков", selection: $viewModel.size) {
+            Section("Size") {
+                Picker("Players", selection: $viewModel.size) {
                     ForEach(TournamentSize.allCases, id: \.self) { size in
                         Text("\(size.rawValue)").tag(size)
                     }
@@ -39,21 +39,21 @@ struct NewTournamentView: View {
                 .pickerStyle(.segmented)
             }
 
-            Section("Посев") {
+            Section("Seeding") {
                 ForEach(viewModel.seedIndices, id: \.self) { index in
                     seedRow(index: index)
                 }
             }
 
             if let error = viewModel.errorMessage {
-                Section { Text(error).foregroundStyle(.red) }
+                Section { Text(error).foregroundStyle(Theme.Palette.error) }
             }
         }
-        .navigationTitle("Новый турнир")
+        .navigationTitle("New tournament")
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
             ToolbarItem(placement: .confirmationAction) {
-                Button("Создать") {
+                Button("Create") {
                     createdTournament = viewModel.createTournament()
                 }
                 .disabled(!viewModel.canCreate)
@@ -76,19 +76,8 @@ struct NewTournamentView: View {
     }
 
     private func seedRow(index: Int) -> some View {
-        Button {
+        SelectRow(title: "Seed \(index + 1)", value: viewModel.seeds[index]?.name, placeholder: "Select") {
             pickingSeed = SeedSlot(id: index)
-        } label: {
-            HStack {
-                Text("Сид \(index + 1)")
-                    .foregroundStyle(Theme.Palette.textPrimary)
-                Spacer()
-                Text(viewModel.seeds[index]?.name ?? "Выбрать")
-                    .foregroundStyle(viewModel.seeds[index] == nil ? .secondary : Theme.Palette.textSecondary)
-                Image(systemName: "chevron.right")
-                    .font(.caption.weight(.semibold))
-                    .foregroundStyle(.tertiary)
-            }
         }
     }
 }

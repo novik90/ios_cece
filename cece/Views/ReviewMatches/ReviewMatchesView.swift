@@ -2,7 +2,7 @@ import SwiftUI
 
 struct ReviewMatchesView: View {
     @StateObject private var viewModel: ReviewMatchesViewModel
-    @State private var pendingDelete: [Match]?
+    @State private var pendingDelete: Match?
     private let dependencies: Dependencies
 
     init(dependencies: Dependencies) {
@@ -24,9 +24,7 @@ struct ReviewMatchesView: View {
                         Section("Tournament matches") {
                             ForEach(viewModel.tournamentMatches) { match in
                                 NavigationLink(value: match) { matchRow(match) }
-                            }
-                            .onDelete { offsets in
-                                pendingDelete = offsets.map { viewModel.tournamentMatches[$0] }
+                                    .deleteSwipeAction { pendingDelete = match }
                             }
                         }
                     }
@@ -34,9 +32,7 @@ struct ReviewMatchesView: View {
                         Section("Other matches") {
                             ForEach(viewModel.otherMatches) { match in
                                 NavigationLink(value: match) { matchRow(match) }
-                            }
-                            .onDelete { offsets in
-                                pendingDelete = offsets.map { viewModel.otherMatches[$0] }
+                                    .deleteSwipeAction { pendingDelete = match }
                             }
                         }
                     }
@@ -47,19 +43,12 @@ struct ReviewMatchesView: View {
         .navigationDestination(for: Match.self) { match in
             MatchDetailView(match: match, dependencies: dependencies)
         }
-        .confirmationDialog(
+        .deleteConfirmation(
             "Delete match?",
-            isPresented: Binding(get: { pendingDelete != nil }, set: { if !$0 { pendingDelete = nil } }),
-            titleVisibility: .visible
-        ) {
-            Button("Delete match", role: .destructive) {
-                if let toDelete = pendingDelete { viewModel.delete(toDelete) }
-                pendingDelete = nil
-            }
-            Button("Cancel", role: .cancel) { pendingDelete = nil }
-        } message: {
-            Text("This permanently deletes the match and all its frames.")
-        }
+            item: $pendingDelete,
+            message: "This permanently deletes the match and all its frames.",
+            confirmLabel: "Delete match"
+        ) { viewModel.delete([$0]) }
         .onAppear { viewModel.load() }
     }
 

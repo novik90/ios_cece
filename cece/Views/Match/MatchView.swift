@@ -12,7 +12,7 @@ struct MatchView: View {
         order: .reverse
     )
     private var activeMatches: [Match]
-    @State private var pendingDelete: IndexSet?
+    @State private var pendingDelete: Match?
 
     private var playableMatches: [Match] {
         activeMatches.filter { $0.player1 != nil && $0.player2 != nil }
@@ -34,8 +34,8 @@ struct MatchView: View {
                                 NavigationLink(value: match) {
                                     ActiveMatchRow(match: match)
                                 }
+                                .deleteSwipeAction { pendingDelete = match }
                             }
-                            .onDelete { pendingDelete = $0 }
                         }
                     }
                 }
@@ -44,28 +44,18 @@ struct MatchView: View {
             .navigationDestination(for: Match.self) { match in
                 MatchPlayView(viewModel: dependencies.liveMatchViewModel(for: match))
             }
-            .confirmationDialog(
+            .deleteConfirmation(
                 "Delete match?",
-                isPresented: Binding(get: { pendingDelete != nil }, set: { if !$0 { pendingDelete = nil } }),
-                titleVisibility: .visible
-            ) {
-                Button("Delete match", role: .destructive) {
-                    if let offsets = pendingDelete { delete(at: offsets) }
-                    pendingDelete = nil
-                }
-                Button("Cancel", role: .cancel) { pendingDelete = nil }
-            } message: {
-                Text("This permanently deletes the match in progress and all its frames.")
-            }
+                item: $pendingDelete,
+                message: "This permanently deletes the match in progress and all its frames.",
+                confirmLabel: "Delete match"
+            ) { delete($0) }
         }
     }
 
-    private func delete(at offsets: IndexSet) {
-        for index in offsets {
-            let match = playableMatches[index]
-            dependencies.releaseMatchViewModel(for: match.id)
-            modelContext.delete(match)
-        }
+    private func delete(_ match: Match) {
+        dependencies.releaseMatchViewModel(for: match.id)
+        modelContext.delete(match)
         try? modelContext.save()
     }
 }
@@ -78,7 +68,7 @@ private struct ActiveMatchRow: View {
             VStack(alignment: .leading, spacing: 2) {
                 Text("\(match.player1?.name ?? "—") vs \(match.player2?.name ?? "—")")
                     .font(.body)
-                Text("Best of \(match.totalFrames) · \(match.frames.count) frame\(match.frames.count == 1 ? "" : "s") played")
+                Text("Best of \(match.totalFrames) · \(match.frames.count) frames played")
                     .font(.caption)
                     .foregroundStyle(.secondary)
             }
@@ -155,7 +145,7 @@ struct MatchPlayView: View {
         }
     }
 
-    private var endButtonTitle: String {
+    private var endButtonTitle: LocalizedStringKey {
         if viewModel.isEndFrame { return "End frame" }
         return viewModel.currentBreakBalls.isEmpty ? "Miss / safety" : "End break"
     }
@@ -166,11 +156,8 @@ struct MatchPlayView: View {
         } label: {
             Label(endButtonTitle, systemImage: "circle.fill")
                 .font(.headline)
-                .frame(maxWidth: .infinity)
-                .padding(.vertical, 14)
         }
-        .foregroundStyle(.white)
-        .background(Theme.Palette.teal, in: RoundedRectangle(cornerRadius: 14, style: .continuous))
+        .buttonStyle(.primary)
         .disabled(viewModel.matchCompleted)
         .opacity(viewModel.matchCompleted ? 0.4 : 1)
     }
@@ -227,7 +214,7 @@ private struct ScoreboardView: View {
         if diff > 0 {
             Text("Ahead: \(diff)").font(.caption).foregroundStyle(Theme.Palette.teal)
         } else if diff < 0 {
-            Text("Behind: \(-diff)").font(.caption).foregroundStyle(Color(hex: "#e74c4c"))
+            Text("Behind: \(-diff)").font(.caption).foregroundStyle(Theme.Palette.destructive)
         } else {
             // Level: keep the row height, show nothing.
             Text("Ahead: 0").font(.caption).hidden()
@@ -272,7 +259,7 @@ private struct BreakSummaryView: View {
             }
         }
         .padding(14)
-        .background(Color(.secondarySystemGroupedBackground), in: RoundedRectangle(cornerRadius: 14))
+        .cardStyle()
     }
 }
 
@@ -293,7 +280,7 @@ private struct ActionsRow: View {
             }
             .disabled(viewModel.matchCompleted)
 
-            actionButton(system: "flag.fill", label: "Foul", foreground: .white, background: Color(hex: "#e74c4c")) {
+            actionButton(system: "flag.fill", label: "Foul", foreground: .white, background: Theme.Palette.destructive) {
                 viewModel.beginFoul()
             }
             .disabled(viewModel.matchCompleted)
@@ -303,9 +290,9 @@ private struct ActionsRow: View {
 
     private func actionButton(
         system: String,
-        label: String,
+        label: LocalizedStringKey,
         foreground: Color = Theme.Palette.textPrimary,
-        background: Color = Color(.secondarySystemGroupedBackground),
+        background: Color = Theme.Palette.surface,
         action: @escaping () -> Void
     ) -> some View {
         Button(action: action) {
@@ -335,15 +322,17 @@ private struct FreeBallBanner: View {
                     .font(.title3)
                 VStack(alignment: .leading, spacing: 1) {
                     Text("Free ball").font(.subheadline.weight(.semibold))
-                    Text(viewModel.freeBallArmed
-                         ? "Tap the ball you played — scores \(viewModel.freeBallValue)"
-                         : "Snookered after a foul? Tap to nominate a free ball.")
+                    let hint: LocalizedStringKey = viewModel.freeBallArmed
+                        ? "Tap the ball you played — scores \(viewModel.freeBallValue)"
+                        : "Snookered after a foul? Tap to nominate a free ball."
+                    Text(hint)
                         .font(.caption2).foregroundStyle(.secondary)
                 }
                 Spacer()
-                Text(viewModel.freeBallArmed ? "Cancel" : "+\(viewModel.freeBallValue)")
+                let trailing: LocalizedStringKey = viewModel.freeBallArmed ? "Cancel" : "+\(viewModel.freeBallValue)"
+                Text(trailing)
                     .font(.subheadline.weight(.semibold).monospacedDigit())
-                    .foregroundStyle(viewModel.freeBallArmed ? Color(hex: "#e74c4c") : Theme.Palette.teal)
+                    .foregroundStyle(viewModel.freeBallArmed ? Theme.Palette.destructive : Theme.Palette.teal)
             }
             .padding(.horizontal, 14)
             .padding(.vertical, 12)
@@ -394,10 +383,8 @@ private struct RespottedBlackSheet: View {
                         viewModel.chooseRespottedBlackFirstPlayer(id)
                     } label: {
                         Text("\(viewModel.name(for: id)) plays first")
-                            .frame(maxWidth: .infinity).padding(.vertical, 14)
                     }
-                    .foregroundStyle(.white)
-                    .background(Theme.Palette.teal, in: RoundedRectangle(cornerRadius: 12))
+                    .buttonStyle(.primary)
                 }
             }
         }
@@ -488,7 +475,7 @@ private struct FoulPenaltySheet: View {
                             .frame(maxWidth: .infinity).padding(.vertical, 16)
                     }
                     .foregroundStyle(.white)
-                    .background(Color(hex: "#e74c4c"), in: RoundedRectangle(cornerRadius: 12))
+                    .background(Theme.Palette.destructive, in: RoundedRectangle(cornerRadius: 12))
                 }
             }
             Text("Awarded to the opponent.").font(.footnote).foregroundStyle(.secondary)
@@ -514,19 +501,15 @@ private struct FoulTurnSheet: View {
                     viewModel.applyFoul(nextPlayerId: opponent)
                 } label: {
                     Text("\(viewModel.name(for: opponent)) plays")
-                        .frame(maxWidth: .infinity).padding(.vertical, 14)
                 }
-                .foregroundStyle(.white)
-                .background(Theme.Palette.teal, in: RoundedRectangle(cornerRadius: 12))
+                .buttonStyle(.primary)
 
                 Button {
                     viewModel.applyFoul(nextPlayerId: offender)
                 } label: {
                     Text("\(viewModel.name(for: offender)) plays again")
-                        .frame(maxWidth: .infinity).padding(.vertical, 14)
                 }
-                .foregroundStyle(Theme.Palette.textPrimary)
-                .background(Color(.secondarySystemGroupedBackground), in: RoundedRectangle(cornerRadius: 12))
+                .buttonStyle(.secondary)
             }
         }
         .padding(24)
@@ -622,18 +605,16 @@ private struct CompletionOverlay: View {
                     Button {
                         dismiss()
                     } label: {
-                        Text("Back to matches").frame(maxWidth: .infinity).padding(.vertical, 12)
+                        Text("Back to matches")
                     }
-                    .foregroundStyle(.white)
-                    .background(Theme.Palette.teal, in: RoundedRectangle(cornerRadius: 12))
+                    .buttonStyle(.primary)
 
                     Button {
                         viewModel.undoLastAction()
                     } label: {
-                        Text("Undo last frame").frame(maxWidth: .infinity).padding(.vertical, 12)
+                        Text("Undo last frame")
                     }
-                    .foregroundStyle(Theme.Palette.textPrimary)
-                    .background(Color(.secondarySystemGroupedBackground), in: RoundedRectangle(cornerRadius: 12))
+                    .buttonStyle(.secondary)
                 }
             }
             .padding(28)

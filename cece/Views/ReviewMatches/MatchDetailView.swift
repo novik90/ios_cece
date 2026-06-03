@@ -43,7 +43,7 @@ struct MatchDetailView: View {
                     LabeledContent("Duration", value: formatDuration(duration))
                 }
                 LabeledContent("Best of", value: "\(viewModel.match.totalFrames)")
-                LabeledContent("Head-to-head", value: "\(viewModel.headToHeadCount) match\(viewModel.headToHeadCount == 1 ? "" : "es")")
+                LabeledContent("Head-to-head") { Text("\(viewModel.headToHeadCount) matches") }
             }
 
             Section("Frames") {
@@ -78,9 +78,15 @@ struct MatchDetailView: View {
             Image(systemName: "trophy.fill")
                 .font(.system(size: 40))
                 .foregroundStyle(Theme.Palette.teal)
-            Text(viewModel.winner.map { "\($0.name) won" } ?? "Match complete")
-                .font(.title2.weight(.bold))
-                .multilineTextAlignment(.center)
+            Group {
+                if let winner = viewModel.winner {
+                    Text("\(winner.name) won")
+                } else {
+                    Text("Match complete")
+                }
+            }
+            .font(.title2.weight(.bold))
+            .multilineTextAlignment(.center)
             Text("\(viewModel.framesWon(by: viewModel.winner)) – \(viewModel.framesWon(by: viewModel.loser))")
                 .font(.largeTitle.weight(.bold).monospacedDigit())
                 .foregroundStyle(.secondary)
@@ -90,7 +96,7 @@ struct MatchDetailView: View {
 
     // MARK: - Rows
 
-    private func playerRow(player: Player, role: String, icon: String, tint: Color) -> some View {
+    private func playerRow(player: Player, role: LocalizedStringKey, icon: String, tint: Color) -> some View {
         NavigationLink(value: player) {
             HStack(spacing: 12) {
                 Image(systemName: icon)

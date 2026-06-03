@@ -45,6 +45,11 @@ struct PlayerDetailView: View {
         .navigationBarTitleDisplayMode(.inline)
     }
 
+    private func statusLabel(_ tournament: PlayerTournamentStat) -> LocalizedStringKey {
+        if tournament.didWin { return "Champion" }
+        return tournament.isCompleted ? "Played" : "In progress"
+    }
+
     // MARK: - Tournament row
 
     private func tournamentRow(_ tournament: PlayerTournamentStat) -> some View {
@@ -54,7 +59,7 @@ struct PlayerDetailView: View {
                 .frame(width: 24)
             Text(tournament.name)
             Spacer()
-            Text(tournament.didWin ? "Champion" : (tournament.isCompleted ? "Played" : "In progress"))
+            Text(statusLabel(tournament))
                 .font(.caption)
                 .foregroundStyle(.secondary)
         }

@@ -18,13 +18,13 @@ struct TournamentMatchSetupView: View {
     var body: some View {
         NavigationStack {
             Form {
-                Section("Участники") {
+                Section("Players") {
                     Text(viewModel.player1?.name ?? "—")
                     Text(viewModel.player2?.name ?? "—")
                 }
                 .foregroundStyle(Theme.Palette.textPrimary)
 
-                Section("Формат") {
+                Section("Format") {
                     Picker("Best of", selection: $viewModel.totalFrames) {
                         ForEach(viewModel.frameOptions, id: \.self) { n in
                             Text("Best of \(n)").tag(n)
@@ -33,17 +33,17 @@ struct TournamentMatchSetupView: View {
                 }
 
                 if let error = viewModel.errorMessage {
-                    Section { Text(error).foregroundStyle(.red) }
+                    Section { Text(error).foregroundStyle(Theme.Palette.error) }
                 }
             }
-            .navigationTitle("Новый матч")
+            .navigationTitle("New match")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
-                    Button("Отмена") { dismiss() }
+                    Button("Cancel") { dismiss() }
                 }
                 ToolbarItem(placement: .confirmationAction) {
-                    Button("Начать") {
+                    Button("Start") {
                         if let match = viewModel.startMatch() { onStarted(match) }
                     }
                     .disabled(!viewModel.canStart)

@@ -11,21 +11,21 @@ struct BracketMatchCard: View {
     enum Status {
         case waiting, ready, inProgress, completed
 
-        var label: String {
+        var label: LocalizedStringKey {
             switch self {
-            case .waiting: return "Ожидание"
-            case .ready: return "Готов"
-            case .inProgress: return "Идёт"
-            case .completed: return "Завершён"
+            case .waiting: return "Waiting"
+            case .ready: return "Ready"
+            case .inProgress: return "Live"
+            case .completed: return "Done"
             }
         }
 
         var color: Color {
             switch self {
-            case .waiting: return Theme.Palette.textSecondary
-            case .ready: return Theme.Palette.teal
-            case .inProgress: return Theme.Palette.blue
-            case .completed: return Theme.Palette.textPrimary
+            case .waiting: return Theme.Status.waiting
+            case .ready: return Theme.Status.ready
+            case .inProgress: return Theme.Status.inProgress
+            case .completed: return Theme.Status.completed
             }
         }
     }
@@ -46,12 +46,10 @@ struct BracketMatchCard: View {
             slotRow(node.slot2PlayerId)
             statusBadge
         }
-        .background(Color(.secondarySystemGroupedBackground))
-        .clipShape(RoundedRectangle(cornerRadius: 10))
-        .overlay(
-            RoundedRectangle(cornerRadius: 10)
-                .stroke(isTappable ? status.color : Theme.Palette.border,
-                        lineWidth: isTappable ? 1.5 : 1)
+        .cardStyle(
+            cornerRadius: Theme.Radius.small,
+            border: isTappable ? status.color : Theme.Palette.border,
+            lineWidth: isTappable ? 1.5 : 1
         )
         .frame(width: 168)
         .contentShape(Rectangle())

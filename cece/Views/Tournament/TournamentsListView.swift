@@ -19,26 +19,32 @@ struct TournamentsListView: View {
         Group {
             if viewModel.tournaments.isEmpty {
                 ContentUnavailableView(
-                    "Пока нет турниров",
+                    "No tournaments yet",
                     systemImage: "trophy",
-                    description: Text("Создайте турнир кнопкой + в правом верхнем углу.")
+                    description: Text("Create one with the + button in the top-right corner.")
                 )
             } else {
                 List {
                     if !viewModel.active.isEmpty {
-                        Section("Активные") {
-                            ForEach(viewModel.active) { row($0) }
+                        Section("Active") {
+                            ForEach(viewModel.active) { tournament in
+                                row(tournament)
+                                    .deleteSwipeAction { pendingDelete = tournament }
+                            }
                         }
                     }
                     if !viewModel.completed.isEmpty {
-                        Section("Завершённые") {
-                            ForEach(viewModel.completed) { row($0) }
+                        Section("Completed") {
+                            ForEach(viewModel.completed) { tournament in
+                                row(tournament)
+                                    .deleteSwipeAction { pendingDelete = tournament }
+                            }
                         }
                     }
                 }
             }
         }
-        .navigationTitle("Турниры")
+        .navigationTitle("Tournaments")
         .toolbar {
             ToolbarItem(placement: .primaryAction) {
                 NavigationLink {
@@ -51,19 +57,13 @@ struct TournamentsListView: View {
         .navigationDestination(for: Tournament.self) { tournament in
             TournamentBracketView(tournament: tournament, dependencies: dependencies)
         }
-        .confirmationDialog(
-            "Удалить турнир?",
-            isPresented: Binding(get: { pendingDelete != nil }, set: { if !$0 { pendingDelete = nil } }),
-            titleVisibility: .visible
-        ) {
-            Button("Удалить", role: .destructive) {
-                if let tournament = pendingDelete { viewModel.delete(tournament) }
-                pendingDelete = nil
-            }
-            Button("Отмена", role: .cancel) { pendingDelete = nil }
-        } message: {
-            Text("Турнир и все его матчи будут удалены безвозвратно.")
-        }
+        .deleteConfirmation(
+            "Delete tournament?",
+            item: $pendingDelete,
+            message: "This permanently deletes the tournament and all its matches.",
+            confirmLabel: "Delete",
+            cancelLabel: "Cancel"
+        ) { viewModel.delete($0) }
         .onAppear {
             viewModel.load()
             loadNames()
@@ -72,32 +72,19 @@ struct TournamentsListView: View {
 
     private func row(_ tournament: Tournament) -> some View {
         NavigationLink(value: tournament) {
-            VStack(alignment: .leading, spacing: 4) {
-                Text(tournament.name)
-                    .font(.headline)
-                    .foregroundStyle(Theme.Palette.textPrimary)
-                HStack {
-                    Text("\(tournament.size.rawValue) игроков")
-                    Spacer()
-                    status(tournament)
-                }
-                .font(.caption)
-                .foregroundStyle(.secondary)
+            ListRow(title: tournament.name, titleFont: .headline, caption: "\(tournament.size.rawValue) players") {
+                status(tournament)
             }
-            .padding(.vertical, 2)
-        }
-        .swipeActions {
-            Button("Удалить", role: .destructive) { pendingDelete = tournament }
         }
     }
 
     @ViewBuilder
     private func status(_ tournament: Tournament) -> some View {
         if let championId = tournament.championId {
-            Label(namesById[championId] ?? "Чемпион", systemImage: "trophy.fill")
+            Label(namesById[championId] ?? "Champion", systemImage: "trophy.fill")
                 .foregroundStyle(Theme.Palette.teal)
         } else {
-            Text("В процессе")
+            Text("In progress")
         }
     }
 

@@ -43,7 +43,7 @@ struct NewMatchView: View {
             }
 
             if let error = viewModel.errorMessage {
-                Section { Text(error).foregroundStyle(.red) }
+                Section { Text(error).foregroundStyle(Theme.Palette.error) }
             }
         }
         .navigationTitle("New match")
@@ -76,20 +76,9 @@ struct NewMatchView: View {
         .onAppear { viewModel.loadPlayers() }
     }
 
-    private func playerRow(title: String, player: Player?, slot: PlayerSlot) -> some View {
-        Button {
+    private func playerRow(title: LocalizedStringKey, player: Player?, slot: PlayerSlot) -> some View {
+        SelectRow(title: title, value: player?.name, placeholder: "Select") {
             pickingSlot = slot
-        } label: {
-            HStack {
-                Text(title)
-                    .foregroundStyle(Theme.Palette.textPrimary)
-                Spacer()
-                Text(player?.name ?? "Select")
-                    .foregroundStyle(player == nil ? .secondary : Theme.Palette.textSecondary)
-                Image(systemName: "chevron.right")
-                    .font(.caption.weight(.semibold))
-                    .foregroundStyle(.tertiary)
-            }
         }
     }
 }
