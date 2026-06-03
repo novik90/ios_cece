@@ -156,11 +156,8 @@ struct MatchPlayView: View {
         } label: {
             Label(endButtonTitle, systemImage: "circle.fill")
                 .font(.headline)
-                .frame(maxWidth: .infinity)
-                .padding(.vertical, 14)
         }
-        .foregroundStyle(.white)
-        .background(Theme.Palette.teal, in: RoundedRectangle(cornerRadius: 14, style: .continuous))
+        .buttonStyle(.primary)
         .disabled(viewModel.matchCompleted)
         .opacity(viewModel.matchCompleted ? 0.4 : 1)
     }
@@ -262,7 +259,7 @@ private struct BreakSummaryView: View {
             }
         }
         .padding(14)
-        .background(Theme.Palette.surface, in: RoundedRectangle(cornerRadius: 14))
+        .cardStyle()
     }
 }
 
@@ -384,10 +381,8 @@ private struct RespottedBlackSheet: View {
                         viewModel.chooseRespottedBlackFirstPlayer(id)
                     } label: {
                         Text("\(viewModel.name(for: id)) plays first")
-                            .frame(maxWidth: .infinity).padding(.vertical, 14)
                     }
-                    .foregroundStyle(.white)
-                    .background(Theme.Palette.teal, in: RoundedRectangle(cornerRadius: 12))
+                    .buttonStyle(.primary)
                 }
             }
         }
@@ -504,19 +499,15 @@ private struct FoulTurnSheet: View {
                     viewModel.applyFoul(nextPlayerId: opponent)
                 } label: {
                     Text("\(viewModel.name(for: opponent)) plays")
-                        .frame(maxWidth: .infinity).padding(.vertical, 14)
                 }
-                .foregroundStyle(.white)
-                .background(Theme.Palette.teal, in: RoundedRectangle(cornerRadius: 12))
+                .buttonStyle(.primary)
 
                 Button {
                     viewModel.applyFoul(nextPlayerId: offender)
                 } label: {
                     Text("\(viewModel.name(for: offender)) plays again")
-                        .frame(maxWidth: .infinity).padding(.vertical, 14)
                 }
-                .foregroundStyle(Theme.Palette.textPrimary)
-                .background(Theme.Palette.surface, in: RoundedRectangle(cornerRadius: 12))
+                .buttonStyle(.secondary)
             }
         }
         .padding(24)
@@ -612,18 +603,16 @@ private struct CompletionOverlay: View {
                     Button {
                         dismiss()
                     } label: {
-                        Text("Back to matches").frame(maxWidth: .infinity).padding(.vertical, 12)
+                        Text("Back to matches")
                     }
-                    .foregroundStyle(.white)
-                    .background(Theme.Palette.teal, in: RoundedRectangle(cornerRadius: 12))
+                    .buttonStyle(.primary)
 
                     Button {
                         viewModel.undoLastAction()
                     } label: {
-                        Text("Undo last frame").frame(maxWidth: .infinity).padding(.vertical, 12)
+                        Text("Undo last frame")
                     }
-                    .foregroundStyle(Theme.Palette.textPrimary)
-                    .background(Theme.Palette.surface, in: RoundedRectangle(cornerRadius: 12))
+                    .buttonStyle(.secondary)
                 }
             }
             .padding(28)
