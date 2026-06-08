@@ -12,10 +12,12 @@ struct RootTabView: View {
             MatchView()
                 .tabItem { Label("Match", systemImage: "target") }
 
-            NavigationStack {
-                TournamentsListView(dependencies: dependencies)
+            if FeatureFlags.tournamentsEnabled {
+                NavigationStack {
+                    TournamentsListView(dependencies: dependencies)
+                }
+                .tabItem { Label("Tournaments", systemImage: "trophy") }
             }
-            .tabItem { Label("Tournaments", systemImage: "trophy") }
 
             NavigationStack {
                 ReviewMatchesView(dependencies: dependencies)
