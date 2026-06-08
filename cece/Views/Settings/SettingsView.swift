@@ -2,6 +2,7 @@ import SwiftUI
 import SwiftData
 
 struct SettingsView: View {
+    @EnvironmentObject private var session: Session
     @Environment(\.modelContext) private var modelContext
 
     #if DEBUG
@@ -17,6 +18,15 @@ struct SettingsView: View {
     var body: some View {
         NavigationStack {
             Form {
+                if let user = session.currentUser {
+                    Section("Account") {
+                        LabeledContent("Signed in as", value: "@\(user.handle)")
+                        Button(role: .destructive) { session.logout() } label: {
+                            Text("Log out")
+                        }
+                    }
+                }
+
                 Section("About") {
                     LabeledContent("App", value: "ce·ce")
                     LabeledContent("Version", value: appVersion)
@@ -70,5 +80,6 @@ struct SettingsView: View {
 
 #Preview {
     SettingsView()
+        .environmentObject(PreviewData.session)
         .modelContainer(PreviewData.container)
 }
