@@ -22,7 +22,7 @@ struct TournamentMatchSetupViewModelTests {
             context.insert(node)
         }
         try context.save()
-        return (container, Dependencies(context: context), tournament, players)
+        return (container, Dependencies(context: context, apiClient: APIClient(tokenStore: InMemoryTokenStore())), tournament, players)
     }
 
     private func round0Nodes(_ tournament: Tournament) -> [TournamentMatch] {

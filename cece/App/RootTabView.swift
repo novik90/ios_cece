@@ -9,7 +9,7 @@ struct RootTabView: View {
             HomeView(dependencies: dependencies)
                 .tabItem { Label("Home", systemImage: "house") }
 
-            MatchView()
+            OnlineMatchesView(dependencies: dependencies)
                 .tabItem { Label("Match", systemImage: "target") }
 
             if FeatureFlags.tournamentsEnabled {
@@ -33,6 +33,6 @@ struct RootTabView: View {
 
 #Preview {
     RootTabView()
-        .environmentObject(Dependencies(context: PreviewData.container.mainContext))
+        .environmentObject(PreviewData.dependencies)
         .environmentObject(PreviewData.session)
 }

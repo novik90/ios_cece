@@ -16,14 +16,15 @@ struct ceceApp: App {
                 Tournament.self, TournamentMatch.self
             )
             self.modelContainer = container
-            _dependencies = StateObject(wrappedValue: Dependencies(context: container.mainContext))
 
-            // Auth wiring: one APIClient + Keychain token, a 401 logs the user out.
+            // One APIClient + Keychain token, shared by auth and online repos.
+            // A 401 logs the user out.
             let tokenStore = KeychainTokenStore()
             let client = APIClient(tokenStore: tokenStore)
             let authSession = Session(auth: RemoteAuthService(client: client), tokenStore: tokenStore)
             client.onUnauthorized = { [weak authSession] in authSession?.logout() }
             _session = StateObject(wrappedValue: authSession)
+            _dependencies = StateObject(wrappedValue: Dependencies(context: container.mainContext, apiClient: client))
         } catch {
             fatalError("Failed to create ModelContainer: \(error)")
         }
