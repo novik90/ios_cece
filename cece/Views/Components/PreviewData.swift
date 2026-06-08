@@ -53,4 +53,12 @@ enum PreviewData {
         return (try? container.mainContext.fetch(descriptor))?.first
             ?? Tournament(name: "Preview Cup", size: .four)
     }
+
+    /// A throwaway session (signed out), for previews that read `Session`.
+    static var session: Session {
+        Session(
+            auth: RemoteAuthService(client: APIClient(tokenStore: InMemoryTokenStore())),
+            tokenStore: InMemoryTokenStore()
+        )
+    }
 }

@@ -7,6 +7,7 @@ struct ceceApp: App {
     let modelContainer: ModelContainer
 
     @StateObject private var dependencies: Dependencies
+    @StateObject private var session: Session
 
     init() {
         do {
@@ -16,6 +17,13 @@ struct ceceApp: App {
             )
             self.modelContainer = container
             _dependencies = StateObject(wrappedValue: Dependencies(context: container.mainContext))
+
+            // Auth wiring: one APIClient + Keychain token, a 401 logs the user out.
+            let tokenStore = KeychainTokenStore()
+            let client = APIClient(tokenStore: tokenStore)
+            let authSession = Session(auth: RemoteAuthService(client: client), tokenStore: tokenStore)
+            client.onUnauthorized = { [weak authSession] in authSession?.logout() }
+            _session = StateObject(wrappedValue: authSession)
         } catch {
             fatalError("Failed to create ModelContainer: \(error)")
         }
@@ -23,7 +31,8 @@ struct ceceApp: App {
 
     var body: some Scene {
         WindowGroup {
-            RootTabView()
+            AuthGateView()
+                .environmentObject(session)
                 .environmentObject(dependencies)
                 .preferredColorScheme(.light)
         }

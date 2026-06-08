@@ -34,4 +34,5 @@ struct RootTabView: View {
 #Preview {
     RootTabView()
         .environmentObject(Dependencies(context: PreviewData.container.mainContext))
+        .environmentObject(PreviewData.session)
 }
