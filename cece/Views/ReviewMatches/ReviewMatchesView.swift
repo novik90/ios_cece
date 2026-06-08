@@ -20,20 +20,27 @@ struct ReviewMatchesView: View {
                 )
             } else {
                 List {
-                    if !viewModel.tournamentMatches.isEmpty {
-                        Section("Tournament matches") {
-                            ForEach(viewModel.tournamentMatches) { match in
-                                NavigationLink(value: match) { matchRow(match) }
-                                    .deleteSwipeAction { pendingDelete = match }
+                    if FeatureFlags.tournamentsEnabled {
+                        if !viewModel.tournamentMatches.isEmpty {
+                            Section("Tournament matches") {
+                                ForEach(viewModel.tournamentMatches) { match in
+                                    NavigationLink(value: match) { matchRow(match) }
+                                        .deleteSwipeAction { pendingDelete = match }
+                                }
                             }
                         }
-                    }
-                    if !viewModel.otherMatches.isEmpty {
-                        Section("Other matches") {
-                            ForEach(viewModel.otherMatches) { match in
-                                NavigationLink(value: match) { matchRow(match) }
-                                    .deleteSwipeAction { pendingDelete = match }
+                        if !viewModel.otherMatches.isEmpty {
+                            Section("Other matches") {
+                                ForEach(viewModel.otherMatches) { match in
+                                    NavigationLink(value: match) { matchRow(match) }
+                                        .deleteSwipeAction { pendingDelete = match }
+                                }
                             }
+                        }
+                    } else {
+                        ForEach(viewModel.matches) { match in
+                            NavigationLink(value: match) { matchRow(match) }
+                                .deleteSwipeAction { pendingDelete = match }
                         }
                     }
                 }
@@ -55,7 +62,7 @@ struct ReviewMatchesView: View {
     @ViewBuilder
     private func matchRow(_ match: Match) -> some View {
         VStack(alignment: .leading, spacing: 4) {
-            if match.isTournamentMatch {
+            if FeatureFlags.tournamentsEnabled, match.isTournamentMatch {
                 Label(match.tournament?.name ?? "Tournament", systemImage: "trophy.fill")
                     .font(.caption2.weight(.semibold))
                     .foregroundStyle(Theme.Palette.teal)

@@ -21,7 +21,7 @@ struct PlayerDetailView: View {
                 LabeledContent("Win rate", value: String(format: "%.0f%%", stats.winPercentage))
             }
 
-            if !stats.tournamentsPlayed.isEmpty {
+            if FeatureFlags.tournamentsEnabled, !stats.tournamentsPlayed.isEmpty {
                 Section("Tournaments") {
                     LabeledContent("Tournaments won", value: "\(stats.tournamentsWon)")
                     ForEach(stats.tournamentsPlayed) { tournament in

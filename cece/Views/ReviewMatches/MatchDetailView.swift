@@ -35,7 +35,7 @@ struct MatchDetailView: View {
             }
 
             Section("Details") {
-                if viewModel.match.isTournamentMatch {
+                if FeatureFlags.tournamentsEnabled, viewModel.match.isTournamentMatch {
                     LabeledContent("Tournament", value: viewModel.match.tournament?.name ?? "—")
                 }
                 LabeledContent("Date", value: viewModel.date.formatted(date: .abbreviated, time: .shortened))
