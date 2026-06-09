@@ -33,11 +33,13 @@ struct MatchScoringViewModelTests {
         #expect(spectator.mySlot == nil)
     }
 
-    @Test func selfScoringEnabledStrikerScores() {
+    @Test func normalModeEitherParticipantScores() {
+        // Self-scoring enabled ⇒ no restriction; either player can score (so a
+        // single device can run the whole match, points go to the striker).
         let (alice, _) = make(myUserId: "u1", selfScoringDisabled: false)
-        #expect(alice.canScore == true)     // striker scores self
+        #expect(alice.canScore == true)     // striker
         let (bob, _) = make(myUserId: "u2", selfScoringDisabled: false)
-        #expect(bob.canScore == false)      // not at the table
+        #expect(bob.canScore == true)       // not at the table, but still allowed
     }
 
     @Test func selfScoringDisabledOpponentScores() {
