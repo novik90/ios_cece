@@ -3,6 +3,7 @@ import SwiftUI
 /// The "Match" tab in the online flow: lists the signed-in user's matches and
 /// creates new ones. Live scoring opens in block F (placeholder for now).
 struct OnlineMatchesView: View {
+    @EnvironmentObject private var session: Session
     @StateObject private var viewModel: OnlineMatchesViewModel
     @State private var showCreate = false
     @State private var showInvites = false
@@ -39,7 +40,10 @@ struct OnlineMatchesView: View {
                 }
             }
             .navigationDestination(for: API.MatchSummary.self) { match in
-                OnlineMatchPlaceholderView(participants: match.participants, status: match.status)
+                OnlineMatchPlayView(
+                    channel: dependencies.makeMatchChannel(matchId: match.id),
+                    myUserId: session.currentUser?.id
+                )
             }
             .sheet(isPresented: $showCreate) {
                 NewOnlineMatchView(viewModel: viewModel) { Task { await viewModel.load() } }

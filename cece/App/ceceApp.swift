@@ -24,7 +24,7 @@ struct ceceApp: App {
             let authSession = Session(auth: RemoteAuthService(client: client), tokenStore: tokenStore)
             client.onUnauthorized = { [weak authSession] in authSession?.logout() }
             _session = StateObject(wrappedValue: authSession)
-            _dependencies = StateObject(wrappedValue: Dependencies(context: container.mainContext, apiClient: client))
+            _dependencies = StateObject(wrappedValue: Dependencies(context: container.mainContext, apiClient: client, tokenStore: tokenStore))
         } catch {
             fatalError("Failed to create ModelContainer: \(error)")
         }
