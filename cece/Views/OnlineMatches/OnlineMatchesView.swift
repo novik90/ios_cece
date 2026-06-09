@@ -5,6 +5,7 @@ import SwiftUI
 struct OnlineMatchesView: View {
     @StateObject private var viewModel: OnlineMatchesViewModel
     @State private var showCreate = false
+    @State private var showInvites = false
     private let dependencies: Dependencies
 
     init(dependencies: Dependencies) {
@@ -30,6 +31,9 @@ struct OnlineMatchesView: View {
             .overlay { if viewModel.isLoading && viewModel.matches.isEmpty { ProgressView() } }
             .navigationTitle("Matches")
             .toolbar {
+                ToolbarItem(placement: .topBarLeading) {
+                    Button { showInvites = true } label: { Image(systemName: "envelope") }
+                }
                 ToolbarItem(placement: .primaryAction) {
                     Button { showCreate = true } label: { Image(systemName: "plus") }
                 }
@@ -39,6 +43,9 @@ struct OnlineMatchesView: View {
             }
             .sheet(isPresented: $showCreate) {
                 NewOnlineMatchView(viewModel: viewModel) { Task { await viewModel.load() } }
+            }
+            .sheet(isPresented: $showInvites) {
+                InvitesView(dependencies: dependencies)
             }
             .refreshable { await viewModel.load() }
             .task { await viewModel.load() }

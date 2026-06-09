@@ -15,6 +15,7 @@ final class Dependencies: ObservableObject {
     /// the online flow fully replaces them.
     let remoteMatches: RemoteMatchRepository
     let remoteFriends: RemoteFriendsRepository
+    let remoteInvites: RemoteInvitesRepository
 
     private let context: ModelContext
     /// Live scoring view models, kept for the app session so re-entering a match
@@ -28,6 +29,7 @@ final class Dependencies: ObservableObject {
         self.tournamentRepository = LocalTournamentRepository(context: context)
         self.remoteMatches = RemoteMatchRepository(client: apiClient)
         self.remoteFriends = RemoteFriendsRepository(client: apiClient)
+        self.remoteInvites = RemoteInvitesRepository(client: apiClient)
     }
 
     /// Returns the live view model for a match, reusing the cached instance.
