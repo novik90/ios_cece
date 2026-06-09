@@ -37,7 +37,7 @@ enum PreviewData {
     }()
 
     static var dependencies: Dependencies {
-        Dependencies(context: container.mainContext)
+        Dependencies(context: container.mainContext, apiClient: APIClient(tokenStore: InMemoryTokenStore()))
     }
 
     /// The seeded in-progress match, for `MatchView` previews.

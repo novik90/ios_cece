@@ -11,16 +11,21 @@ final class Dependencies: ObservableObject {
     let matchRepository: MatchRepository
     let tournamentRepository: TournamentRepository
 
+    /// Online match access (migration). Local repos above are retained until
+    /// the online flow fully replaces them.
+    let remoteMatches: RemoteMatchRepository
+
     private let context: ModelContext
     /// Live scoring view models, kept for the app session so re-entering a match
     /// preserves the in-progress frame state instead of starting over.
     private var liveMatchViewModels: [UUID: MatchViewModel] = [:]
 
-    init(context: ModelContext) {
+    init(context: ModelContext, apiClient: APIClient) {
         self.context = context
         self.playerRepository = LocalPlayerRepository(context: context)
         self.matchRepository = LocalMatchRepository(context: context)
         self.tournamentRepository = LocalTournamentRepository(context: context)
+        self.remoteMatches = RemoteMatchRepository(client: apiClient)
     }
 
     /// Returns the live view model for a match, reusing the cached instance.
