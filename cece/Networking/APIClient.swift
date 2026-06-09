@@ -41,6 +41,32 @@ final class APIClient {
         try await send(method: "DELETE", path: path, query: [], body: Optional<EmptyBody>.none)
     }
 
+    /// A request whose successful response carries no body (e.g. `204`).
+    func sendNoContent(method: String, path: String) async throws {
+        let url = baseURL.appendingPathComponent(path)
+        var request = URLRequest(url: url)
+        request.httpMethod = method
+        request.setValue("application/json", forHTTPHeaderField: "Accept")
+        if let token = tokenStore.read() {
+            request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+        }
+
+        let data: Data
+        let response: URLResponse
+        do {
+            (data, response) = try await session.data(for: request)
+        } catch {
+            throw APIError.transport(error.localizedDescription)
+        }
+        guard let http = response as? HTTPURLResponse else {
+            throw APIError.transport("No HTTP response")
+        }
+        guard (200..<300).contains(http.statusCode) else {
+            if http.statusCode == 401 { onUnauthorized?() }
+            throw apiError(from: data, status: http.statusCode)
+        }
+    }
+
     private struct EmptyBody: Encodable {}
 
     private func send<Response: Decodable, Body: Encodable>(

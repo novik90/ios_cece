@@ -12,6 +12,9 @@ struct RootTabView: View {
             OnlineMatchesView(dependencies: dependencies)
                 .tabItem { Label("Match", systemImage: "target") }
 
+            FriendsView(dependencies: dependencies)
+                .tabItem { Label("Friends", systemImage: "person.2") }
+
             if FeatureFlags.tournamentsEnabled {
                 NavigationStack {
                     TournamentsListView(dependencies: dependencies)
