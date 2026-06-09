@@ -18,18 +18,26 @@ final class Dependencies: ObservableObject {
     let remoteInvites: RemoteInvitesRepository
 
     private let context: ModelContext
+    private let tokenStore: TokenStore
     /// Live scoring view models, kept for the app session so re-entering a match
     /// preserves the in-progress frame state instead of starting over.
     private var liveMatchViewModels: [UUID: MatchViewModel] = [:]
 
-    init(context: ModelContext, apiClient: APIClient) {
+    init(context: ModelContext, apiClient: APIClient, tokenStore: TokenStore) {
         self.context = context
+        self.tokenStore = tokenStore
         self.playerRepository = LocalPlayerRepository(context: context)
         self.matchRepository = LocalMatchRepository(context: context)
         self.tournamentRepository = LocalTournamentRepository(context: context)
         self.remoteMatches = RemoteMatchRepository(client: apiClient)
         self.remoteFriends = RemoteFriendsRepository(client: apiClient)
         self.remoteInvites = RemoteInvitesRepository(client: apiClient)
+    }
+
+    /// A live Socket.IO connection to one match, authenticated with the stored
+    /// access token. The scoring screen owns the returned channel's lifecycle.
+    func makeMatchChannel(matchId: String) -> MatchChannel {
+        SocketIOMatchChannel(matchId: matchId, token: tokenStore.read())
     }
 
     /// Returns the live view model for a match, reusing the cached instance.

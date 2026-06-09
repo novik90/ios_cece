@@ -26,11 +26,16 @@
 		1B0000000000000000000003 /* ceceTests */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = ceceTests; sourceTree = "<group>"; };
 /* End PBXFileSystemSynchronizedRootGroup section */
 
+/* Begin PBXBuildFile section */
+		1C0000000000000000000003 /* SocketIO in Frameworks */ = {isa = PBXBuildFile; productRef = 1C0000000000000000000002 /* SocketIO */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFrameworksBuildPhase section */
 		1A0000000000000000000008 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1C0000000000000000000003 /* SocketIO in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -89,6 +94,9 @@
 				1A0000000000000000000003 /* cece */,
 			);
 			name = cece;
+			packageProductDependencies = (
+				1C0000000000000000000002 /* SocketIO */,
+			);
 			productName = cece;
 			productReference = 1A0000000000000000000004 /* cece.app */;
 			productType = "com.apple.product-type.application";
@@ -144,6 +152,9 @@
 			);
 			mainGroup = 1A0000000000000000000001;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				1C0000000000000000000001 /* XCRemoteSwiftPackageReference "socket.io-client-swift" */,
+			);
 			productRefGroup = 1A0000000000000000000002 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -443,6 +454,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		1C0000000000000000000001 /* XCRemoteSwiftPackageReference "socket.io-client-swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/socketio/socket.io-client-swift";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 16.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		1C0000000000000000000002 /* SocketIO */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 1C0000000000000000000001 /* XCRemoteSwiftPackageReference "socket.io-client-swift" */;
+			productName = SocketIO;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 1A0000000000000000000006 /* Project object */;
 }

@@ -78,7 +78,7 @@ final class MatchScoringViewModel: ObservableObject {
         case "match_not_found": return "Match not found."
         case "forbidden": return "You can't score this match."
         case "network_error": return "Connection lost. Reconnecting…"
-        default: return error.message ?? "Something went wrong."
+        default: return error.message.isEmpty ? "Something went wrong." : error.message
         }
     }
 }
