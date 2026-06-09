@@ -45,12 +45,26 @@ final class MatchScoringViewModel: ObservableObject {
         return frame.striker == mySlot
     }
 
-    /// Whether *I* am the one who records this visit. With normal self-scoring the
-    /// striker scores themselves; with self-scoring disabled the opponent does.
-    /// (`iAmStriker XOR selfScoringDisabled`.)
+    /// The seat whose operator records the current striker's visit. Mirrors the
+    /// server rule (`self_scoring_forbidden` only blocks the striker's own
+    /// pot/freeBall when self-scoring is disabled):
+    /// - a guest never operates a device, so the registered player scores for them;
+    /// - with self-scoring disabled, the opponent records the striker's break;
+    /// - otherwise the striker scores their own break.
+    private var scorerSlot: Int? {
+        guard let frame, let participants = state?.participants, participants.count == 2 else { return nil }
+        let striker = frame.striker
+        if participants.indices.contains(striker), participants[striker].isGuest {
+            return participants.firstIndex { !$0.isGuest }
+        }
+        if selfScoringDisabled { return striker == 0 ? 1 : 0 }
+        return striker
+    }
+
+    /// Whether *I* record this visit (i.e. the action buttons are shown to me).
     var canScore: Bool {
-        guard mySlot != nil, !isCompleted, frame != nil else { return false }
-        return iAmStriker != selfScoringDisabled
+        guard let mySlot, !isCompleted, frame != nil else { return false }
+        return mySlot == scorerSlot
     }
 
     /// Winner's display name once the match is completed.

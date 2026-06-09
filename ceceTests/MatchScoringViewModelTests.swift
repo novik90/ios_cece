@@ -47,6 +47,36 @@ struct MatchScoringViewModelTests {
         #expect(bob.canScore == true)       // opponent records the break
     }
 
+    /// Guest opponent (normal self-scoring): the registered player records the
+    /// whole frame — including the guest's break — since the guest has no device.
+    @Test func guestOpponentLetsRegisteredPlayerScoreBothVisits() {
+        func guestState(striker: Int) -> API.MatchLiveState {
+            let base = API.MatchLiveState.sample()
+            return API.MatchLiveState(
+                matchId: base.matchId, status: .live, bestOf: base.bestOf,
+                framesWon: [0, 0], selfScoringDisabled: false,
+                participants: [.user(id: "u1", handle: "alice", displayName: "Alice"), .guest(name: "Guest")],
+                frame: API.FrameState(
+                    frameNumber: 1, breaker: 0, striker: striker, scores: [0, 0],
+                    redsRemaining: 15, phase: .reds, colorOn: nil,
+                    currentBreak: API.Break(striker: striker, points: 0),
+                    pointsRemaining: 147, freeBallAvailable: false, respottedBlack: false,
+                    status: .inProgress, winner: nil
+                ),
+                highestBreak: [0, 0], version: 1
+            )
+        }
+        let channel = FakeMatchChannel()
+        let vm = MatchScoringViewModel(channel: channel, myUserId: "u1")
+        vm.start()
+
+        channel.emit(guestState(striker: 0))   // registered player's own break
+        #expect(vm.canScore == true)
+
+        channel.emit(guestState(striker: 1))   // guest at the table → registered player still scores
+        #expect(vm.canScore == true)
+    }
+
     @Test func potSendsAction() {
         let (vm, channel) = make(myUserId: "u1")
         vm.pot(.red)
